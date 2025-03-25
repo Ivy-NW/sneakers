@@ -1,6 +1,6 @@
 # Amana
 
-> Blockchain-Powered Sneaker Authentication Platform
+> Blockchain-Powered AI Sneaker Authentication Platform
 
 ![Amana Logo](./images/logo.png)
 
