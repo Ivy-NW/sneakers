@@ -39,7 +39,7 @@ Amana (meaning "trust" in Arabic) provides a comprehensive solution for authenti
 
 ```bash
 # Clone the repository
-git clone https://github.com/amana-authentication/prototype.git
+git clone https://github.com/Ivy-NW/sneakers
 
 # Navigate to project directory
 cd prototype
