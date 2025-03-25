@@ -1,0 +1,78 @@
+/* Additional custom styles beyond Tailwind */
+.page-section {
+    min-height: 60vh;
+}
+
+.nav-link {
+    color: #4B5563;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: #4F46E5;
+}
+
+/* Animation for loading spinner */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Certificate card styles */
+.certificate-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.certificate-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Image preview container */
+.image-preview-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.image-preview-container img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+}
+
+/* Credit package highlight */
+.credit-package {
+    position: relative;
+    transition: transform 0.2s;
+}
+
+.credit-package:hover {
+    transform: translateY(-5px);
+}
+
+/* Modal animations */
+#modal-overlay {
+    transition: opacity 0.3s;
+}
+
+#success-modal {
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+#modal-overlay.showing {
+    opacity: 1;
+}
+
+#success-modal.showing {
+    transform: translateY(0);
+    opacity: 1;
+}
