@@ -3,69 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amana - AI Blockchain Authentication</title>
-    <link rel="shortcut icon" href="./images/logo.png" type="image/svg+xml">
+    <title>SneakerVerify - Blockchain Authentication</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <style>
         :root {
             --primary: #00c9a7;
-            --primary-dark: #00a085;
-            --primary-light: #4ddbca;
             --secondary: #845ec2;
-            --secondary-dark: #6a4b9c;
-            --secondary-light: #a07ed9;
             --accent: #ff6f91;
-            --accent-dark: #e05a7a;
-            --accent-light: #ff8fa8;
             --success: #2ecc71;
             --warning: #f39c12;
             --danger: #e74c3c;
             --dark: #121212;
             --darker: #0a0a0a;
-            --darkest: #000000;
+            --darkest: #050505;
             --light: #f5f5f7;
-            --light-gray: #e0e0e0;
-            --medium-gray: #888888;
             --text-dark: #2d3436;
             --text-light: #f5f5f7;
-            --text-muted: #a0a0a0;
             --border-radius: 16px;
-            --border-radius-sm: 8px;
-            --border-radius-lg: 24px;
             --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --box-shadow-strong: 0 15px 40px rgba(0, 0, 0, 0.2);
             --transition: all 0.3s ease;
-            --transition-slow: all 0.5s ease;
-            --transition-fast: all 0.2s ease;
-            --glow: 0 0 15px;
         }
 
         .dark-mode {
             --primary: #00c9a7;
-            --primary-dark: #00a085;
-            --primary-light: #4ddbca;
             --secondary: #9b59b6;
-            --secondary-dark: #8e44ad;
-            --secondary-light: #b07cc6;
             --accent: #ff6f91;
-            --accent-dark: #e05a7a;
-            --accent-light: #ff8fa8;
             --success: #2ecc71;
             --warning: #f39c12;
             --danger: #e74c3c;
-            --dark: #000000;
-            --darker: #000000;
+            --dark: #0a0a0a;
+            --darker: #050505;
             --darkest: #000000;
-            --light: #121212;
-            --light-gray: #1e1e1e;
-            --medium-gray: #666666;
+            --light: #1a1a1a;
             --text-dark: #f5f5f7;
-            --text-light: #f5f5f7;
-            --text-muted: #888888;
-            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            --box-shadow-strong: 0 15px 40px rgba(0, 0, 0, 0.7);
-            --glow: 0 0 20px;
+            --text-light: #dfe6e9;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         * {
@@ -74,7 +46,6 @@
             box-sizing: border-box;
             font-family: 'Poppins', 'Segoe UI', sans-serif;
             transition: var(--transition);
-            scroll-behavior: smooth;
         }
 
         body {
@@ -105,18 +76,17 @@
             background-color: var(--dark);
             color: var(--text-light);
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 201, 167, 0.03) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(132, 94, 194, 0.03) 0%, transparent 20%);
+                radial-gradient(circle at 10% 20%, rgba(0, 201, 167, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(132, 94, 194, 0.05) 0%, transparent 20%);
         }
 
         .dark-mode body::before {
             background: 
                 url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.2;
         }
 
         header {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -127,16 +97,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: var(--transition);
-        }
-
-        header.scrolled {
-            padding: 0.7rem 2rem;
-            box-shadow: var(--box-shadow);
         }
 
         .dark-mode header {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(10, 10, 10, 0.8);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -147,8 +111,6 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            position: relative;
-            z-index: 2;
         }
 
         .logo-icon {
@@ -157,11 +119,6 @@
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 2px rgba(0, 201, 167, 0.3));
-        }
-
-        .dark-mode .logo-icon {
-            filter: drop-shadow(0 0 3px rgba(0, 201, 167, 0.5));
         }
 
         nav ul {
@@ -176,7 +133,6 @@
             font-weight: 500;
             position: relative;
             padding: 0.5rem 0;
-            transition: var(--transition-fast);
         }
 
         .dark-mode nav a {
@@ -192,10 +148,6 @@
             height: 2px;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             transition: width 0.3s ease;
-        }
-
-        nav a:hover {
-            color: var(--primary);
         }
 
         nav a:hover::after {
@@ -220,8 +172,6 @@
             align-items: center;
             justify-content: center;
             transition: transform 0.3s ease;
-            position: relative;
-            z-index: 2;
         }
 
         .dark-mode .theme-toggle {
@@ -230,7 +180,6 @@
 
         .theme-toggle:hover {
             transform: rotate(30deg);
-            color: var(--primary);
         }
 
         main {
@@ -240,8 +189,7 @@
         }
 
         section {
-            margin-bottom: 5rem;
-            position: relative;
+            margin-bottom: 3rem;
         }
 
         .hero {
@@ -249,12 +197,9 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            padding: 5rem 0;
+            padding: 3rem 0;
             position: relative;
             overflow: hidden;
-            min-height: 80vh;
-            display: flex;
-            justify-content: center;
         }
 
         .hero::before {
@@ -271,7 +216,7 @@
                 transparent 100%
             );
             transform: rotate(45deg);
-            animation: shine 15s infinite linear;
+            animation: shine 10s infinite linear;
             pointer-events: none;
         }
 
@@ -287,49 +232,35 @@
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
+            font-size: 3rem;
+            margin-bottom: 1rem;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             position: relative;
-            text-shadow: 0 0 30px rgba(0, 201, 167, 0.2);
-        }
-
-        .dark-mode .hero h1 {
-            text-shadow: 0 0 30px rgba(0, 201, 167, 0.4);
         }
 
         .hero h1::after {
             content: '';
             position: absolute;
-            bottom: -15px;
+            bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
             width: 100px;
-            height: 4px;
+            height: 3px;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 4px;
+            border-radius: 3px;
         }
 
         .hero p {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             max-width: 700px;
-            margin-bottom: 2.5rem;
-            line-height: 1.6;
-        }
-
-        .hero-subtitle {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            margin-bottom: 2rem;
         }
 
         .btn {
-            padding: 0.9rem 1.8rem;
+            padding: 0.8rem 1.5rem;
             border-radius: var(--border-radius);
             border: none;
             font-weight: 600;
@@ -340,7 +271,6 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
-            letter-spacing: 0.5px;
         }
 
         .btn::before {
@@ -365,18 +295,9 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .dark-mode .btn:hover {
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-
         .btn-primary {
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             color: white;
-            box-shadow: 0 4px 15px rgba(0, 201, 167, 0.3);
-        }
-
-        .dark-mode .btn-primary {
-            box-shadow: 0 4px 15px rgba(0, 201, 167, 0.5);
         }
 
         .btn-outline {
@@ -386,23 +307,8 @@
         }
 
         .dark-mode .btn-outline {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-outline:hover {
-            background: rgba(0, 201, 167, 0.1);
-        }
-
-        .dark-mode .btn-outline:hover {
-            background: rgba(0, 201, 167, 0.2);
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
+            border-color: var(--text-light);
+            color: var(--text-light);
         }
 
         .sneaker-card {
@@ -445,10 +351,6 @@
             backface-visibility: visible;
         }
 
-        .dark-mode .sneaker-3d div {
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
-
         .front {
             transform: translateZ(50px);
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -483,44 +385,35 @@
             background: linear-gradient(135deg, var(--success), var(--secondary));
         }
 
-        /* Vertical Process Steps */
         .process-steps {
             display: flex;
-            flex-direction: column;
-            gap: 3rem;
-            max-width: 800px;
-            margin: 4rem auto;
+            justify-content: space-between;
+            margin: 4rem 0;
             position: relative;
         }
 
         .process-steps::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 40px;
-            width: 2px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             z-index: -1;
         }
 
         .process-step {
             display: flex;
-            gap: 2rem;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .process-step.active {
-            opacity: 1;
-            transform: translateY(0);
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 150px;
         }
 
         .step-number {
             width: 80px;
             height: 80px;
-            min-width: 80px;
             border-radius: 50%;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             display: flex;
@@ -529,30 +422,15 @@
             font-size: 1.5rem;
             font-weight: 700;
             color: white;
+            margin-bottom: 1rem;
             position: relative;
             z-index: 1;
-            box-shadow: var(--box-shadow);
-        }
-
-        .dark-mode .step-number {
-            box-shadow: 0 0 20px rgba(0, 201, 167, 0.3);
-        }
-
-        .step-content {
-            flex: 1;
-            padding-top: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .step-title {
             font-weight: 600;
-            font-size: 1.3rem;
-            margin-bottom: 0.8rem;
-            color: var(--primary);
-        }
-
-        .step-description {
-            line-height: 1.6;
-            color: var(--text-muted);
+            margin-bottom: 0.5rem;
         }
 
         .features {
@@ -570,10 +448,9 @@
             padding: 2rem;
             box-shadow: var(--box-shadow);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease;
             position: relative;
             overflow: hidden;
-            height: 100%;
         }
 
         .dark-mode .feature-card {
@@ -583,21 +460,15 @@
 
         .feature-card:hover {
             transform: translateY(-10px);
-            box-shadow: var(--box-shadow-strong);
         }
 
         .feature-icon {
             font-size: 2.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 2px rgba(0, 201, 167, 0.3));
-        }
-
-        .dark-mode .feature-icon {
-            filter: drop-shadow(0 0 3px rgba(0, 201, 167, 0.5));
         }
 
         .feature-card h3 {
@@ -605,9 +476,412 @@
             font-size: 1.5rem;
         }
 
-        .feature-card p {
-            color: var(--text-muted);
-            line-height: 1.6;
+        .authentication-form {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dark-mode .authentication-form {
+            background: rgba(26, 26, 26, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .authentication-form::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                transparent 100%
+            );
+            transform: rotate(45deg);
+            animation: shine 5s infinite linear;
+            pointer-events: none;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .form-control {
+            background: rgba(15, 14, 23, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 201, 167, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .upload-area {
+            border: 2px dashed rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dark-mode .upload-area {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(0, 201, 167, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .payment-option {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dark-mode .payment-option {
+            background: rgba(26, 26, 26, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .payment-option:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .payment-option.active {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 201, 167, 0.2);
+        }
+
+        .payment-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dark-mode .stat-card {
+            background: rgba(26, 26, 26, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            opacity: 0.8;
+        }
+
+        .dark-mode .stat-label {
+            color: var(--text-light);
+        }
+
+        .authentication-history {
+            margin-top: 2rem;
+        }
+
+        .history-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dark-mode .history-item {
+            background: rgba(26, 26, 26, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .history-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .history-details h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        .history-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+
+        .status-verified {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .status-rejected {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .certificate-viewer {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dark-mode .certificate-viewer {
+            background: rgba(26, 26, 26, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .certificate-viewer::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 100%
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite linear;
+            pointer-events: none;
+        }
+
+        .certificate-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .certificate-header h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .certificate-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .certificate-detail {
+            margin-bottom: 1rem;
+        }
+
+        .certificate-detail label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+            opacity: 0.8;
+        }
+
+        .certificate-detail p {
+            font-weight: 600;
+        }
+
+        .certificate-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .certificate-image {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            height: 150px;
+            position: relative;
+        }
+
+        .certificate-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .certificate-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .blockchain-info {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .blockchain-info {
+            border-top-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .blockchain-info h4 {
+            margin-bottom: 1rem;
+        }
+
+        .blockchain-data {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            font-family: monospace;
+            overflow-x: auto;
+        }
+
+        .dark-mode .blockchain-data {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .qr-code {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .qr-code img {
+            width: 150px;
+            height: 150px;
+            border-radius: var(--border-radius);
+            padding: 0.5rem;
+            background: white;
+            transition: transform 0.3s ease;
+        }
+
+        .qr-code img:hover {
+            transform: scale(1.1);
+        }
+
+        .verification-seal {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .seal-icon {
+            font-size: 3rem;
+            color: var(--success);
+            margin-bottom: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .seal-text {
+            font-weight: 600;
+            color: var(--success);
         }
 
         /* Glassmorphism effect */
@@ -623,7 +897,6 @@
         .dark-mode .glassmorphic {
             background: rgba(26, 26, 26, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         /* Neumorphism effect */
@@ -712,540 +985,6 @@
             }
         }
 
-        .authentication-form {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 2.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .dark-mode .authentication-form {
-            background: rgba(26, 26, 26, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .authentication-form:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--box-shadow-strong);
-        }
-
-        .authentication-form::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent 0%,
-                rgba(255, 255, 255, 0.05) 50%,
-                transparent 100%
-            );
-            transform: rotate(45deg);
-            animation: shine 5s infinite linear;
-            pointer-events: none;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            transition: var(--transition-fast);
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.9rem 1rem;
-            border-radius: var(--border-radius);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            background: rgba(255, 255, 255, 0.8);
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .dark-mode .form-control {
-            background: rgba(15, 14, 23, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-light);
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 201, 167, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .upload-area {
-            border: 2px dashed rgba(0, 0, 0, 0.1);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .dark-mode .upload-area {
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .upload-area:hover {
-            border-color: var(--primary);
-            background: rgba(0, 201, 167, 0.05);
-        }
-
-        .upload-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-            transition: transform 0.3s ease;
-        }
-
-        .upload-area:hover .upload-icon {
-            transform: scale(1.1);
-        }
-
-        .upload-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .upload-box {
-            border: 2px dashed rgba(0, 0, 0, 0.1);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            height: 200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .dark-mode .upload-box {
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .upload-box:hover {
-            border-color: var(--primary);
-            background: rgba(0, 201, 167, 0.05);
-            transform: translateY(-3px);
-        }
-
-        .upload-box input[type="file"] {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .upload-label {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .upload-hint {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .preview-container {
-            margin-top: 1rem;
-            width: 100%;
-            height: 100px;
-            border-radius: var(--border-radius-sm);
-            overflow: hidden;
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .dark-mode .preview-container {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .payment-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .payment-option {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: var(--border-radius);
-            padding: 1.8rem;
-            text-align: center;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .dark-mode .payment-option {
-            background: rgba(26, 26, 26, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .payment-option:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--box-shadow);
-        }
-
-        .payment-option.active {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 201, 167, 0.2);
-        }
-
-        .payment-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-            transition: transform 0.3s ease;
-        }
-
-        .payment-option:hover .payment-icon {
-            transform: scale(1.1);
-        }
-
-        .dashboard-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: var(--box-shadow);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .dark-mode .stat-card {
-            background: rgba(26, 26, 26, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--box-shadow-strong);
-        }
-
-        .stat-value {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 2px rgba(0, 201, 167, 0.3));
-        }
-
-        .dark-mode .stat-value {
-            filter: drop-shadow(0 0 3px rgba(0, 201, 167, 0.5));
-        }
-
-        .stat-label {
-            font-size: 1rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .authentication-history {
-            margin-top: 3rem;
-        }
-
-        .history-item {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .dark-mode .history-item {
-            background: rgba(26, 26, 26, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .history-item:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--box-shadow);
-        }
-
-        .history-details h4 {
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .history-status {
-            padding: 0.5rem 1rem;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .status-pending {
-            background-color: var(--warning);
-            color: var(--dark);
-            box-shadow: 0 0 10px rgba(243, 156, 18, 0.3);
-        }
-
-        .status-verified {
-            background-color: var(--success);
-            color: white;
-            box-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
-        }
-
-        .status-rejected {
-            background-color: var(--danger);
-            color: white;
-            box-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
-        }
-
-        .certificate-viewer {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: var(--border-radius);
-            padding: 2.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: var(--box-shadow);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .dark-mode .certificate-viewer {
-            background: rgba(26, 26, 26, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .certificate-viewer:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--box-shadow-strong);
-        }
-
-        .certificate-viewer::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent 0%,
-                rgba(255, 255, 255, 0.1) 50%,
-                transparent 100%
-            );
-            transform: rotate(45deg);
-            animation: shine 3s infinite linear;
-            pointer-events: none;
-        }
-
-        .certificate-header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .certificate-header h3 {
-            font-size: 2rem;
-            margin-bottom: 0.8rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .certificate-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .certificate-detail {
-            margin-bottom: 1rem;
-        }
-
-        .certificate-detail label {
-            display: block;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .certificate-detail p {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .certificate-images {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .certificate-image {
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            height: 150px;
-            position: relative;
-            box-shadow: var(--box-shadow);
-            transition: transform 0.3s ease;
-        }
-
-        .certificate-image:hover {
-            transform: scale(1.05);
-        }
-
-        .certificate-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .certificate-image:hover img {
-            transform: scale(1.1);
-        }
-
-        .verification-seal {
-            text-align: center;
-            margin: 2.5rem 0;
-        }
-
-        .seal-icon {
-            font-size: 4rem;
-            color: var(--success);
-            margin-bottom: 1rem;
-            animation: pulse 2s infinite;
-            filter: drop-shadow(0 0 10px rgba(46, 204, 113, 0.5));
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.1);
-                opacity: 0.8;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .seal-text {
-            font-weight: 600;
-            color: var(--success);
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .qr-code {
-            display: flex;
-            justify-content: center;
-            margin: 2.5rem 0;
-        }
-
-        .qr-code img {
-            width: 180px;
-            height: 180px;
-            border-radius: var(--border-radius);
-            padding: 0.8rem;
-            background: white;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: var(--box-shadow);
-        }
-
-        .qr-code img:hover {
-            transform: scale(1.1);
-            box-shadow: var(--box-shadow-strong);
-        }
-
-        .blockchain-info {
-            margin-top: 2.5rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .dark-mode .blockchain-info {
-            border-top-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .blockchain-info h4 {
-            margin-bottom: 1.5rem;
-            font-size: 1.3rem;
-            color: var(--primary);
-        }
-
-        .blockchain-data {
-            background: rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            border-radius: var(--border-radius);
-            font-family: 'Consolas', 'Monaco', monospace;
-            overflow-x: auto;
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-
-        .dark-mode .blockchain-data {
-            background: rgba(0, 0, 0, 0.2);
-        }
-
         /* Modal styles */
         .modal-overlay {
             position: fixed;
@@ -1253,7 +992,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1261,7 +1000,6 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
-            backdrop-filter: blur(5px);
         }
 
         .modal-overlay.active {
@@ -1272,12 +1010,12 @@
         .modal {
             background: var(--light);
             border-radius: var(--border-radius);
-            padding: 2.5rem;
+            padding: 2rem;
             width: 90%;
-            max-width: 550px;
-            box-shadow: var(--box-shadow-strong);
-            transform: translateY(30px) scale(0.95);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 500px;
+            box-shadow: var(--box-shadow);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
             position: relative;
         }
 
@@ -1286,53 +1024,42 @@
         }
 
         .modal-overlay.active .modal {
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
 
         .modal-close {
             position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
+            top: 1rem;
+            right: 1rem;
             background: none;
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--text-dark);
-            transition: transform 0.3s ease, color 0.3s ease;
         }
 
         .dark-mode .modal-close {
             color: var(--text-light);
         }
 
-        .modal-close:hover {
-            transform: rotate(90deg);
-            color: var(--primary);
-        }
-
         .modal-header {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             text-align: center;
         }
 
         .modal-header h3 {
-            font-size: 2rem;
-            margin-bottom: 0.8rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
         }
 
-        /* Tab container */
         .tab-container {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .tabs {
             display: flex;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .dark-mode .tabs {
@@ -1340,16 +1067,11 @@
         }
 
         .tab {
-            padding: 1rem 1.5rem;
+            padding: 0.8rem 1.5rem;
             cursor: pointer;
             font-weight: 500;
             border-bottom: 2px solid transparent;
             transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .tab:hover {
-            color: var(--primary);
         }
 
         .tab.active {
@@ -1357,20 +1079,8 @@
             color: var(--primary);
         }
 
-        .tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            animation: pulse 2s infinite;
-        }
-
         .tab-content {
             display: none;
-            animation: fadeIn 0.5s ease;
         }
 
         .tab-content.active {
@@ -1380,9 +1090,9 @@
         /* Credit packages */
         .credit-packages {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .credit-package {
@@ -1390,7 +1100,7 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-radius: var(--border-radius);
-            padding: 2rem;
+            padding: 1.5rem;
             text-align: center;
             cursor: pointer;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1405,7 +1115,7 @@
         }
 
         .credit-package:hover {
-            transform: translateY(-8px);
+            transform: translateY(-5px);
             box-shadow: var(--box-shadow);
         }
 
@@ -1431,264 +1141,22 @@
         }
 
         .credit-amount {
-            font-size: 3rem;
+            font-size: 2rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
             color: var(--primary);
-            position: relative;
-            display: inline-block;
-        }
-
-        .credit-amount::after {
-            content: 'Credits';
-            position: absolute;
-            bottom: -1.2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            white-space: nowrap;
         }
 
         .credit-price {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 600;
-            margin: 1.5rem 0 0.8rem;
+            margin-bottom: 0.5rem;
         }
 
         .credit-discount {
             font-size: 0.9rem;
             color: var(--accent);
             font-weight: 500;
-            padding: 0.3rem 0.8rem;
-            background: rgba(255, 111, 145, 0.1);
-            border-radius: 20px;
-            display: inline-block;
-        }
-
-        .dark-mode .credit-discount {
-            background: rgba(255, 111, 145, 0.2);
-        }
-
-        /* Currency selector */
-        .currency-selector {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2.5rem;
-            gap: 1rem;
-        }
-
-        .currency-option {
-            padding: 0.8rem 1.5rem;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .dark-mode .currency-option {
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .currency-option:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--box-shadow);
-        }
-
-        .currency-option.active {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 5px 15px rgba(0, 201, 167, 0.3);
-        }
-
-        .dark-mode .currency-option.active {
-            box-shadow: 0 5px 15px rgba(0, 201, 167, 0.5);
-        }
-
-        /* Payment method details */
-        .payment-method-details {
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: var(--border-radius);
-            margin-top: 2rem;
-            display: none;
-            animation: fadeIn 0.5s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .dark-mode .payment-method-details {
-            background: rgba(26, 26, 26, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .payment-method-details.active {
-            display: block;
-        }
-
-        .mpesa-details, .crypto-details, .paypal-details {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .mpesa-details.active, .crypto-details.active, .paypal-details.active {
-            display: block;
-        }
-
-        .qr-container {
-            display: flex;
-            justify-content: center;
-            margin: 1.5rem 0;
-        }
-
-        .crypto-address {
-            text-align: center;
-            font-family: 'Consolas', 'Monaco', monospace;
-            padding: 1rem;
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: var(--border-radius);
-            margin: 1.5rem 0;
-            word-break: break-all;
-            position: relative;
-        }
-
-        .dark-mode .crypto-address {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .crypto-address::after {
-            content: 'Click to Copy';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 201, 167, 0.9);
-            color: white;
-            font-weight: 600;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            cursor: pointer;
-            border-radius: var(--border-radius);
-        }
-
-        .crypto-address:hover::after {
-            opacity: 1;
-        }
-
-        /* Multi-step authentication styles */
-        .auth-steps {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .auth-steps::before {
-            content: '';
-            position: absolute;
-            top: 25px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: rgba(0, 0, 0, 0.1);
-            z-index: 0;
-        }
-
-        .dark-mode .auth-steps::before {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .auth-step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .step-circle {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--light);
-            border: 2px solid rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 0.8rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            transition: all 0.3s ease;
-        }
-
-        .dark-mode .step-circle {
-            background: var(--dark);
-            border-color: rgba(255, 255, 255, 0.1);
-            color: var(--text-light);
-        }
-
-        .step-circle.active {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            border-color: transparent;
-            color: white;
-            box-shadow: 0 0 15px rgba(0, 201, 167, 0.5);
-            transform: scale(1.1);
-        }
-
-        .step-circle.completed {
-            background: var(--success);
-            border-color: transparent;
-            color: white;
-        }
-
-        .auth-step-content {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .auth-step-content.active {
-            display: block;
-        }
-
-        /* OTP verification */
-        .otp-container {
-            display: flex;
-            justify-content: center;
-            gap: 0.8rem;
-            margin: 2rem 0;
-        }
-
-        .otp-input {
-            width: 55px;
-            height: 55px;
-            text-align: center;
-            font-size: 1.8rem;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: var(--border-radius-sm);
-            background: rgba(255, 255, 255, 0.8);
-            transition: all 0.3s ease;
-        }
-
-        .dark-mode .otp-input {
-            background: rgba(15, 14, 23, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-light);
-        }
-
-        .otp-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 201, 167, 0.2);
-            transform: translateY(-3px);
         }
 
         /* User profile */
@@ -1710,26 +1178,24 @@
             justify-content: center;
             color: white;
             font-weight: 600;
-            transition: transform 0.3s ease;
         }
 
-        .user-profile:hover .user-avatar {
-            transform: scale(1.1);
+        .user-name {
+            font-weight: 500;
         }
 
         .user-dropdown {
             position: absolute;
-            top: 120%;
+            top: 100%;
             right: 0;
             background: var(--light);
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             padding: 1rem;
-            min-width: 220px;
+            min-width: 200px;
             z-index: 100;
             display: none;
             animation: fadeIn 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .dark-mode .user-dropdown {
@@ -1741,17 +1207,14 @@
         }
 
         .user-dropdown-item {
-            padding: 0.8rem;
+            padding: 0.5rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            border-radius: var(--border-radius-sm);
-            display: flex;
-            align-items: center;
+            border-radius: var(--border-radius);
         }
 
         .user-dropdown-item:hover {
             background: rgba(0, 0, 0, 0.05);
-            transform: translateX(5px);
         }
 
         .dark-mode .user-dropdown-item:hover {
@@ -1759,247 +1222,236 @@
         }
 
         .user-dropdown-item i {
-            margin-right: 0.8rem;
+            margin-right: 0.5rem;
             width: 20px;
             text-align: center;
-            color: var(--primary);
         }
 
-        /* Credit badge */
-        .credit-badge {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 3px 10px rgba(0, 201, 167, 0.3);
-            transition: transform 0.3s ease;
-        }
-
-        .dark-mode .credit-badge {
-            box-shadow: 0 3px 10px rgba(0, 201, 167, 0.5);
-        }
-
-        .credit-badge:hover {
-            transform: translateY(-3px);
-        }
-
-        .credit-badge i {
-            font-size: 0.9rem;
-        }
-
-        /* Buy credits button */
-        .buy-credits-btn {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 201, 167, 0.3);
-        }
-
-        .dark-mode .buy-credits-btn {
-            box-shadow: 0 4px 15px rgba(0, 201, 167, 0.5);
-        }
-
-        .buy-credits-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 201, 167, 0.4);
-        }
-
-        .buy-credits-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 201, 167, 0.4);
-        }
-
-        /* Profile and settings styles */
-        .profile-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .profile-header {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 2.5rem;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: var(--border-radius);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: var(--box-shadow);
-        }
-
-        .dark-mode .profile-header {
-            background: rgba(26, 26, 26, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: white;
-            font-weight: 600;
-            box-shadow: 0 5px 20px rgba(0, 201, 167, 0.3);
-        }
-
-        .dark-mode .profile-avatar {
-            box-shadow: 0 5px 20px rgba(0, 201, 167, 0.5);
-        }
-
-        .profile-info h2 {
-            margin-bottom: 0.8rem;
-            font-size: 2rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .profile-info p {
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-        }
-
-        .profile-section {
-            margin-bottom: 2.5rem;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .profile-section h3 {
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.8rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
-
-        .dark-mode .profile-section h3 {
-            border-bottom-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .settings-option {
+        /* AI Analysis Section */
+        .ai-analysis {
+            margin-top: 2rem;
             padding: 1.5rem;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-radius: var(--border-radius);
-            margin-bottom: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .dark-mode .settings-option {
+        .dark-mode .ai-analysis {
             background: rgba(26, 26, 26, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .settings-option:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--box-shadow);
+        .ai-analysis-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
 
-        .settings-option h4 {
-            margin-bottom: 0.5rem;
+        .ai-analysis-icon {
+            font-size: 2rem;
             color: var(--primary);
         }
 
-        .settings-option p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
+        .ai-analysis-title {
+            font-size: 1.5rem;
+            font-weight: 600;
         }
 
-        /* Switch toggle */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
+        .ai-analysis-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
+        .ai-result-item {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
+        .dark-mode .ai-result-item {
+            background: rgba(0, 0, 0, 0.2);
         }
 
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
+        .ai-result-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
 
-        input:checked + .slider {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
+        .ai-result-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
         }
 
-        input:focus + .slider {
-            box-shadow: 0 0 1px var(--primary);
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-        /* Progress bar */
-        .progress-container {
+        .ai-confidence {
             width: 100%;
             height: 10px;
             background: rgba(0, 0, 0, 0.1);
             border-radius: 5px;
+            margin-top: 1rem;
             overflow: hidden;
-            margin: 1.5rem 0;
+            position: relative;
         }
 
-        .dark-mode .progress-container {
+        .dark-mode .ai-confidence {
             background: rgba(255, 255, 255, 0.1);
         }
 
-        .progress-bar {
+        .ai-confidence-bar {
             height: 100%;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             border-radius: 5px;
             transition: width 1s ease;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            main {
+                padding: 6rem 1rem 1rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-options {
+                grid-template-columns: 1fr;
+            }
+
+            .certificate-details {
+                grid-template-columns: 1fr;
+            }
+
+            .process-steps {
+                flex-direction: column;
+                align-items: center;
+                gap: 2rem;
+            }
+
+            .process-steps::before {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--light);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .dark-mode .nav-links {
+                background: var(--dark);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+        }
+
+        /* Page transitions */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile menu button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        .dark-mode .mobile-menu-btn {
+            color: var(--text-light);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--light);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .dark-mode .nav-links {
+                background: var(--dark);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
         }
 
         /* Loading animation */
@@ -2067,136 +1519,83 @@
             }
         }
 
-        /* AI Analysis Section */
-        .ai-analysis {
-            margin-top: 2.5rem;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: var(--border-radius);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: var(--box-shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .dark-mode .ai-analysis {
-            background: rgba(26, 26, 26, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .ai-analysis:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--box-shadow-strong);
-        }
-
-        .ai-analysis-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .ai-analysis-icon {
-            font-size: 2.5rem;
-            color: var(--primary);
-            filter: drop-shadow(0 0 3px rgba(0, 201, 167, 0.3));
-        }
-
-        .dark-mode .ai-analysis-icon {
-            filter: drop-shadow(0 0 5px rgba(0, 201, 167, 0.5));
-        }
-
-        .ai-analysis-title {
-            font-size: 1.8rem;
-            font-weight: 600;
+        /* Credit badge */
+        .credit-badge {
             background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .ai-analysis-results {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .ai-result-item {
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: var(--border-radius);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            transition: transform 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            gap: 0.3rem;
         }
 
-        .dark-mode .ai-result-item {
-            background: rgba(0, 0, 0, 0.2);
+        .credit-badge i {
+            font-size: 0.8rem;
         }
 
-        .ai-result-item:hover {
-            transform: translateY(-5px);
+        /* Buy credits button */
+        .buy-credits-btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
         }
 
-        .ai-result-value {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-            color: var(--primary);
+        .buy-credits-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .ai-result-label {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            text-align: center;
+        /* Currency selector */
+        .currency-selector {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
         }
 
-        .ai-confidence {
-            width: 100%;
-            height: 10px;
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            margin-top: 1.5rem;
-            overflow: hidden;
-            position: relative;
+        .currency-option {
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
 
-        .dark-mode .ai-confidence {
-            background: rgba(255, 255, 255, 0.1);
+        .dark-mode .currency-option {
+            border-color: rgba(255, 255, 255, 0.1);
         }
 
-        .ai-confidence-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 5px;
-            transition: width 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+        .currency-option.active {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: transparent;
         }
 
         /* NFT Certificate */
         .nft-certificate {
             position: relative;
-            padding: 2.5rem;
+            padding: 2rem;
             border-radius: var(--border-radius);
             background: linear-gradient(135deg, rgba(0, 201, 167, 0.1), rgba(132, 94, 194, 0.1));
             border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
-            margin-top: 2.5rem;
-            box-shadow: var(--box-shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 2rem;
         }
 
         .dark-mode .nft-certificate {
             background: linear-gradient(135deg, rgba(0, 201, 167, 0.2), rgba(132, 94, 194, 0.2));
-            box-shadow: var(--box-shadow-strong);
-        }
-
-        .nft-certificate:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--box-shadow-strong);
         }
 
         .nft-certificate::before {
@@ -2213,188 +1612,448 @@
 
         .nft-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .nft-header h3 {
-            font-size: 2rem;
-            margin-bottom: 0.8rem;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* Responsive styles */
-        @media (max-width: 768px) {
-            header {
-                padding: 1rem;
-            }
-
-            .logo {
-                font-size: 1.2rem;
-            }
-
-            nav ul {
-                gap: 1rem;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero p {
-                font-size: 1.1rem;
-            }
-
-            main {
-                padding: 6rem 1rem 1rem;
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-            }
-
-            .dashboard-stats {
-                grid-template-columns: 1fr;
-            }
-
-            .payment-options {
-                grid-template-columns: 1fr;
-            }
-
-            .certificate-details {
-                grid-template-columns: 1fr;
-            }
-
-            .process-steps::before {
-                left: 30px;
-            }
-
-            .step-number {
-                width: 60px;
-                height: 60px;
-                min-width: 60px;
-                font-size: 1.2rem;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background: var(--light);
-                flex-direction: column;
-                padding: 1rem;
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-                z-index: 1;
-            }
-
-            .dark-mode .nav-links {
-                background: var(--dark);
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            nav ul {
-                flex-direction: column;
-            }
-
-            .profile-header {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
-            }
+        .nft-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
         }
 
-        /* Page transitions */
-        .page {
-            display: none;
-            animation: fadeIn 0.5s ease;
+        .nft-detail {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
         }
 
-        .page.active {
+        .dark-mode .nft-detail {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .nft-detail-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .nft-detail-value {
+            font-weight: 600;
+        }
+
+        .nft-image {
+            width: 100%;
+            max-width: 300px;
+            margin: 2rem auto;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .nft-image img {
+            width: 100%;
+            height: auto;
             display: block;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Verification specific styles */
+        .verification-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
         }
 
-        /* Mobile menu button */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--text-dark);
-            cursor: pointer;
-            z-index: 2;
+        .dark-mode .verification-container {
+            background: rgba(26, 26, 26, 0.3);
         }
 
-        .dark-mode .mobile-menu-btn {
-            color: var(--text-light);
+        .verification-header {
+            text-align: center;
+            margin-bottom: 2rem;
         }
 
-        /* Scroll to top button */
-        .scroll-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+        .verification-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 201, 167, 0.3);
-            z-index: 99;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .dark-mode .scroll-top {
-            box-shadow: 0 5px 15px rgba(0, 201, 167, 0.5);
+        .verification-result {
+            text-align: center;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-top: 2rem;
         }
 
-        .scroll-top.active {
-            opacity: 1;
-            visibility: visible;
+        .result-authentic {
+            background: rgba(46, 204, 113, 0.1);
+            border: 1px solid rgba(46, 204, 113, 0.3);
         }
 
-        .scroll-top:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 201, 167, 0.4);
+        .dark-mode .result-authentic {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+
+        .result-fake {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+
+        .dark-mode .result-fake {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid rgba(231, 76, 60, 0.4);
         }
 
         .hidden {
-            display: none !important;
+            display: none;
+        }
+
+        .upload-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .upload-box {
+            border: 2px dashed rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dark-mode .upload-box {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .upload-box:hover {
+            border-color: var(--primary);
+            background: rgba(0, 201, 167, 0.05);
+        }
+
+        .upload-box input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Multi-step authentication styles */
+        .auth-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .auth-steps::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 0;
+        }
+
+        .dark-mode .auth-steps::before {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--light);
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .dark-mode .step-circle {
+            background: var(--dark);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+        }
+
+        .step-circle.active {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-color: transparent;
+            color: white;
+        }
+
+        .step-circle.completed {
+            background: var(--success);
+            border-color: transparent;
+            color: white;
+        }
+
+        /* Profile and settings styles */
+        .profile-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            font-weight: 600;
+        }
+
+        .profile-info h2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-info p {
+            opacity: 0.8;
+        }
+
+        .profile-section {
+            margin-bottom: 2rem;
+        }
+
+        .profile-section h3 {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .profile-section h3 {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .settings-option {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dark-mode .settings-option {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .settings-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .dark-mode .settings-option:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Payment method specific styles */
+        .payment-method-details {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .dark-mode .payment-method-details {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-method-details.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .mpesa-details, .crypto-details, .paypal-details {
+            display: none;
+        }
+
+        .mpesa-details.active, .crypto-details.active, .paypal-details.active {
+            display: block;
+        }
+
+        .qr-container {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .crypto-address {
+            text-align: center;
+            font-family: monospace;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+            word-break: break-all;
+        }
+
+        .dark-mode .crypto-address {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Switch toggle */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .dark-mode .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* OTP verification */
+        .otp-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .dark-mode .otp-input {
+            background: rgba(15, 14, 23, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+        }
+
+        .otp-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 201, 167, 0.2);
         }
     </style>
 </head>
 <body>
-    <header id="header">
+    <header>
         <div class="logo">
             <i class="fas fa-check-circle logo-icon"></i>
-            <span>Amana</span>
+            <span>SneakerVerify</span>
         </div>
         <button class="mobile-menu-btn" id="mobileMenuBtn">
             <i class="fas fa-bars"></i>
@@ -2541,16 +2200,15 @@
         <!-- Home Page -->
         <section id="home" class="page">
             <div class="hero">
-                <div class="hero-subtitle" data-aos="fade-up">Secure • Reliable • Blockchain-Powered</div>
-                <h1 data-aos="fade-up" data-aos-delay="100">Blockchain-Enhanced Sneaker Authentication</h1>
-                <p data-aos="fade-up" data-aos-delay="200">Verify the authenticity of your sneakers with our AI-powered, Hedera blockchain-secured authentication system. Get peace of mind knowing your premium footwear is 100% authentic with immutable digital certificates.</p>
-                <div class="btn-group" data-aos="fade-up" data-aos-delay="300">
+                <h1>Blockchain-Enhanced Sneaker Authentication</h1>
+                <p>Verify the authenticity of your sneakers with our AI-powered, Hedera blockchain-secured authentication system.</p>
+                <div>
                     <a href="#authenticate" class="btn btn-primary nav-link" data-page="authenticate">Authenticate Now</a>
                     <a href="#buy-credits" class="btn btn-outline nav-link" data-page="buy-credits">Buy Credits</a>
                 </div>
             </div>
 
-            <div class="sneaker-card" data-aos="zoom-in" data-aos-delay="400">
+            <div class="sneaker-card">
                 <div class="sneaker-3d">
                     <div class="front"><i class="fas fa-shoe-prints"></i></div>
                     <div class="back"><i class="fas fa-check-circle"></i></div>
@@ -2561,77 +2219,67 @@
                 </div>
             </div>
 
-            <h2 style="text-align: center; margin-top: 5rem; margin-bottom: 2rem;" data-aos="fade-up">How It Works</h2>
             <div class="process-steps">
-                <div class="process-step" id="step1">
+                <div class="process-step">
                     <div class="step-number">1</div>
-                    <div class="step-content">
-                        <div class="step-title">Upload Photos</div>
-                        <p class="step-description">Take clear photos of your sneakers from multiple angles including sides, soles, stitching details, and tags. Our system requires comprehensive imagery to perform accurate authentication.</p>
-                    </div>
+                    <div class="step-title">Upload Photos</div>
+                    <p>Take clear photos of your sneakers from multiple angles</p>
                 </div>
-                <div class="process-step" id="step2">
+                <div class="process-step">
                     <div class="step-number">2</div>
-                    <div class="step-content">
-                        <div class="step-title">AI Analysis</div>
-                        <p class="step-description">Our advanced AI system analyzes your sneakers using computer vision and machine learning algorithms trained on thousands of authentic and counterfeit samples to detect even the subtlest signs of inauthenticity.</p>
-                    </div>
+                    <div class="step-title">AI Analysis</div>
+                    <p>Our AI system analyzes your sneakers for authenticity</p>
                 </div>
-                <div class="process-step" id="step3">
+                <div class="process-step">
                     <div class="step-number">3</div>
-                    <div class="step-content">
-                        <div class="step-title">Expert Review</div>
-                        <p class="step-description">Human experts with years of experience in sneaker authentication review the AI's findings to ensure accuracy. This dual-layer verification process combines technological precision with human expertise for the most reliable results.</p>
-                    </div>
+                    <div class="step-title">Expert Review</div>
+                    <p>Human experts verify the AI's findings</p>
                 </div>
-                <div class="process-step" id="step4">
+                <div class="process-step">
                     <div class="step-number">4</div>
-                    <div class="step-content">
-                        <div class="step-title">Blockchain Certificate</div>
-                        <p class="step-description">Once verified as authentic, your sneakers receive an immutable NFT certificate on the Hedera blockchain. This tamper-proof digital certificate serves as permanent proof of authenticity that can be transferred with the sneakers if sold.</p>
-                    </div>
+                    <div class="step-title">Blockchain Certificate</div>
+                    <p>Receive an immutable NFT certificate on Hedera</p>
                 </div>
             </div>
 
-            <h2 style="text-align: center; margin-top: 5rem; margin-bottom: 2rem;" data-aos="fade-up">Why Choose SneakerVerify</h2>
             <div class="features">
-                <div class="feature-card glassmorphic" data-aos="fade-up">
+                <div class="feature-card glassmorphic">
                     <div class="feature-icon">
                         <i class="fas fa-robot"></i>
                     </div>
                     <h3>AI-Powered Screening</h3>
-                    <p>Our advanced AI analyzes photos for inconsistencies and signs of counterfeiting, using computer vision to detect even the most subtle differences between authentic and fake sneakers. The system is continuously trained on new counterfeit techniques to stay ahead of fraudsters.</p>
+                    <p>Our advanced AI analyzes photos for inconsistencies and signs of counterfeiting, using computer vision to detect even the most subtle differences between authentic and fake sneakers.</p>
                 </div>
-                <div class="feature-card neumorphic" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-card neumorphic">
                     <div class="feature-icon">
                         <i class="fas fa-user-check"></i>
                     </div>
                     <h3>Expert Verification</h3>
-                    <p>Two human authenticators review each submission for maximum accuracy, bringing years of experience and knowledge to ensure your sneakers are properly authenticated. Our experts have authenticated over 100,000 pairs and stay updated on the latest counterfeit techniques.</p>
+                    <p>Two human authenticators review each submission for maximum accuracy, bringing years of experience and knowledge to ensure your sneakers are properly authenticated.</p>
                 </div>
-                <div class="feature-card edge-glow" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-card edge-glow">
                     <div class="feature-icon">
                         <i class="fas fa-cubes"></i>
                     </div>
                     <h3>Hedera Blockchain</h3>
-                    <p>Immutable digital certificates stored on the Hedera blockchain for ultimate security, providing a permanent and tamper-proof record of your sneaker's authenticity. Each certificate contains a unique token ID that can be verified independently on the blockchain.</p>
+                    <p>Immutable digital certificates stored on the Hedera blockchain for ultimate security, providing a permanent and tamper-proof record of your sneaker's authenticity.</p>
                 </div>
-                <div class="feature-card liquid-holo" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-card liquid-holo">
                     <div class="feature-icon">
                         <i class="fas fa-wallet"></i>
                     </div>
                     <h3>Multi-Payment Options</h3>
-                    <p>Buy credits with cryptocurrency (HBAR, ETH, USDC), M-Pesa, or PayPal for global accessibility, making it easy for anyone to verify their sneakers regardless of location. Our flexible payment system ensures you can authenticate your sneakers no matter where you are in the world.</p>
+                    <p>Buy credits with cryptocurrency (HBAR, ETH, USDC), M-Pesa, or PayPal for global accessibility, making it easy for anyone to verify their sneakers regardless of location.</p>
                 </div>
             </div>
         </section>
 
         <!-- Authentication Page -->
         <section id="authenticate" class="page">
-            <h2 data-aos="fade-up">Submit for Authentication</h2>
-            <p data-aos="fade-up" data-aos-delay="100">Upload photos of your sneakers for our two-stage authentication process. Each authentication costs 2 credits and typically takes 24-48 hours to complete.</p>
+            <h2>Submit for Authentication</h2>
+            <p>Upload photos of your sneakers for our two-stage authentication process. Each authentication costs 2 credits.</p>
 
-            <div class="credit-info" style="text-align: center; margin: 2rem 0;" data-aos="fade-up" data-aos-delay="200">
+            <div class="credit-info" style="text-align: center; margin-bottom: 2rem;">
                 <p>Your Credits: <span id="authPageCredits" style="font-weight: 700; color: var(--primary);">0</span></p>
                 <button class="buy-credits-btn" id="buyCreditsBtn">
                     <i class="fas fa-coins"></i>
@@ -2639,7 +2287,7 @@
                 </button>
             </div>
 
-            <form class="authentication-form" id="authForm" data-aos="fade-up" data-aos-delay="300">
+            <form class="authentication-form" id="authForm">
                 <div class="form-group">
                     <label for="sneaker-brand">Sneaker Brand</label>
                     <input type="text" id="sneaker-brand" class="form-control" placeholder="e.g., Nike, Adidas, Jordan" required>
@@ -2695,55 +2343,59 @@
 
         <!-- Buy Credits Page -->
         <section id="buy-credits" class="page">
-            <h2 data-aos="fade-up">Buy Authentication Credits</h2>
-            <p data-aos="fade-up" data-aos-delay="100">Purchase credits to authenticate your sneakers. Each authentication requires 2 credits. Buy in bulk to save with our tiered discount system.</p>
+            <h2>Buy Authentication Credits</h2>
+            <p>Purchase credits to authenticate your sneakers. Each authentication requires 2 credits.</p>
 
-            <div class="currency-selector" data-aos="fade-up" data-aos-delay="200">
+            <div class="currency-selector">
                 <div class="currency-option active" data-currency="USD">USD ($)</div>
                 <div class="currency-option" data-currency="KES">KES (Ksh)</div>
             </div>
 
-            <div class="credit-packages" data-aos="fade-up" data-aos-delay="300">
-                <div class="credit-package glassmorphic" data-credits="10" data-price-usd="20" data-price-kes="2600">
+            <div class="credit-packages">
+                <div class="credit-package" data-credits="10" data-price-usd="20" data-price-kes="2600">
                     <div class="credit-amount">10</div>
+                    <div class="credit-label">Credits</div>
                     <div class="credit-price" id="price1">$20</div>
                     <div class="credit-discount">$2 per credit</div>
                 </div>
-                <div class="credit-package glassmorphic" data-credits="25" data-price-usd="45" data-price-kes="5850">
+                <div class="credit-package" data-credits="25" data-price-usd="45" data-price-kes="5850">
                     <div class="credit-amount">25</div>
+                    <div class="credit-label">Credits</div>
                     <div class="credit-price" id="price2">$45</div>
                     <div class="credit-discount">$1.80 per credit (10% off)</div>
                 </div>
-                <div class="credit-package glassmorphic" data-credits="50" data-price-usd="80" data-price-kes="10400">
+                <div class="credit-package" data-credits="50" data-price-usd="80" data-price-kes="10400">
                     <div class="credit-amount">50</div>
+                    <div class="credit-label">Credits</div>
                     <div class="credit-price" id="price3">$80</div>
                     <div class="credit-discount">$1.60 per credit (20% off)</div>
                 </div>
-                <div class="credit-package glassmorphic" data-credits="100" data-price-usd="150" data-price-kes="19500">
+                <div class="credit-package" data-credits="100" data-price-usd="150" data-price-kes="19500">
                     <div class="credit-amount">100</div>
+                    <div class="credit-label">Credits</div>
                     <div class="credit-price" id="price4">$150</div>
                     <div class="credit-discount">$1.50 per credit (25% off)</div>
                 </div>
             </div>
 
-            <div class="form-group" data-aos="fade-up" data-aos-delay="400">
+            <div class="form-group">
                 <label>Select Payment Method</label>
                 <div class="payment-options">
-                    <div class="payment-option glassmorphic" data-payment="mpesa">
+                    <div class="payment-option" data-payment="mpesa">
                         <div class="payment-icon">
                             <i class="fas fa-mobile-alt"></i>
                         </div>
                         <h4>M-Pesa</h4>
                         <p>Mobile Money</p>
                     </div>
-                    <div class="payment-option glassmorphic" data-payment="crypto">
+                    <div class="payment-option" data-payment="crypto">
                         <div class="payment-icon">
                             <i class="fab fa-bitcoin"></i>
                         </div>
                         <h4>Cryptocurrency</h4>
                         <p>BTC, ETH, USDC</p>
                     </div>
-                    <div class="payment-option glassmorphic" data-payment="paypal">
+                    <div class="payment-option" data-payment="paypal">
                         <div class="payment-icon">
                             <i class="fab fa-paypal"></i>
                         </div>
@@ -2753,7 +2405,7 @@
                 </div>
             </div>
 
-            <div class="payment-method-details glassmorphic" id="paymentMethodDetails">
+            <div class="payment-method-details" id="paymentMethodDetails">
                 <!-- M-Pesa Payment Details -->
                 <div class="mpesa-details" id="mpesaDetails">
                     <h4>Pay with M-Pesa</h4>
@@ -2812,34 +2464,34 @@
                 </div>
             </div>
 
-            <button id="purchaseCreditsBtn" class="btn btn-primary" style="width: 100%; margin-top: 2rem;" data-aos="fade-up" data-aos-delay="500">Complete Purchase</button>
+            <button id="purchaseCreditsBtn" class="btn btn-primary" style="width: 100%; margin-top: 2rem;">Complete Purchase</button>
         </section>
 
         <!-- Dashboard Page -->
         <section id="dashboard" class="page">
-            <h2 data-aos="fade-up">Your Dashboard</h2>
-            <p data-aos="fade-up" data-aos-delay="100">Track your authentication requests and manage your account. Monitor the status of your verifications in real-time.</p>
+            <h2>Your Dashboard</h2>
+            <p>Track your authentication requests and manage your account.</p>
 
-            <div class="dashboard-stats" data-aos="fade-up" data-aos-delay="200">
-                <div class="stat-card glassmorphic">
+            <div class="dashboard-stats">
+                <div class="stat-card">
                     <div class="stat-value" id="creditsValue">0</div>
                     <div class="stat-label">Available Credits</div>
                 </div>
-                <div class="stat-card glassmorphic">
+                <div class="stat-card">
                     <div class="stat-value" id="pendingValue">0</div>
                     <div class="stat-label">Pending Authentications</div>
                 </div>
-                <div class="stat-card glassmorphic">
+                <div class="stat-card">
                     <div class="stat-value" id="completedValue">0</div>
                     <div class="stat-label">Completed Authentications</div>
                 </div>
-                <div class="stat-card glassmorphic">
+                <div class="stat-card">
                     <div class="stat-value" id="certificatesValue">0</div>
                     <div class="stat-label">Blockchain Certificates</div>
                 </div>
             </div>
 
-            <div class="authentication-history" data-aos="fade-up" data-aos-delay="300">
+            <div class="authentication-history">
                 <h3>Recent Authentication Requests</h3>
                 <div id="historyList">
                     <!-- History items will be dynamically added here -->
@@ -2849,14 +2501,14 @@
 
         <!-- Certificates Page -->
         <section id="certificates" class="page">
-            <h2 data-aos="fade-up">Your Authentication Certificates</h2>
-            <p data-aos="fade-up" data-aos-delay="100">View and share your Hedera blockchain-secured authentication certificates. Each certificate is a unique NFT that proves the authenticity of your sneakers.</p>
+            <h2>Your Authentication Certificates</h2>
+            <p>View and share your Hedera blockchain-secured authentication certificates.</p>
 
-            <div id="certificatesList" data-aos="fade-up" data-aos-delay="200">
+            <div id="certificatesList">
                 <!-- Certificate items will be dynamically added here -->
             </div>
 
-            <div class="certificate-viewer glassmorphic" id="certificateViewer" style="display: none;" data-aos="fade-up" data-aos-delay="300">
+            <div class="certificate-viewer" id="certificateViewer" style="display: none;">
                 <div class="certificate-header">
                     <h3>Authentication Certificate</h3>
                     <p>Verified on <span id="certDate">March 15, 2023</span></p>
@@ -2892,13 +2544,13 @@
 
                 <div class="certificate-images">
                     <div class="certificate-image">
-                        <img src="https://via.placeholder.com/150" alt="Sneaker Left Side">
+                        <img src="/placeholder.svg?height=150&width=150" alt="Sneaker Image 1">
                     </div>
                     <div class="certificate-image">
-                        <img src="https://via.placeholder.com/150" alt="Sneaker Right Side">
+                        <img src="/placeholder.svg?height=150&width=150" alt="Sneaker Image 2">
                     </div>
                     <div class="certificate-image">
-                        <img src="https://via.placeholder.com/150" alt="Sneaker Sole">
+                        <img src="/placeholder.svg?height=150&width=150" alt="Sneaker Image 3">
                     </div>
                 </div>
 
@@ -2907,7 +2559,7 @@
                     <div class="blockchain-data">
                         <p>Network: Hedera Mainnet</p>
                         <p>Token ID: <span id="blockchainTokenId">0.0.12345</span></p>
-                        <p>Transaction ID: <span id="blockchainTxId">0.0.12345@1649267342.282929001</span></p>
+                        <p>Transaction ID: <span id="blockchainTxId">0.0.654321@1234567890.000000000</span></p>
                         <p>Consensus Timestamp: <span id="blockchainTimestamp">1234567890.000000000</span></p>
                     </div>
                 </div>
@@ -2917,7 +2569,7 @@
         <!-- Profile Page -->
         <section id="profile" class="page">
             <div class="profile-container">
-                <div class="profile-header glassmorphic" data-aos="fade-up">
+                <div class="profile-header">
                     <div class="profile-avatar" id="profileAvatar">JD</div>
                     <div class="profile-info">
                         <h2 id="profileName">John Doe</h2>
@@ -2926,7 +2578,7 @@
                     </div>
                 </div>
 
-                <div class="profile-section" data-aos="fade-up" data-aos-delay="100">
+                <div class="profile-section">
                     <h3>Account Information</h3>
                     <form id="profileForm">
                         <div class="form-group">
@@ -2945,7 +2597,7 @@
                     </form>
                 </div>
 
-                <div class="profile-section" data-aos="fade-up" data-aos-delay="200">
+                <div class="profile-section">
                     <h3>Security</h3>
                     <form id="securityForm">
                         <div class="form-group">
@@ -2964,16 +2616,16 @@
                     </form>
                 </div>
 
-                <div class="profile-section" data-aos="fade-up" data-aos-delay="300">
+                <div class="profile-section">
                     <h3>Payment Methods</h3>
-                    <div class="settings-option glassmorphic">
+                    <div class="settings-option">
                         <div>
                             <h4><i class="fas fa-mobile-alt" style="margin-right: 0.5rem;"></i> M-Pesa</h4>
                             <p>+254 712 345 678</p>
                         </div>
                         <button class="btn btn-outline">Edit</button>
                     </div>
-                    <div class="settings-option glassmorphic">
+                    <div class="settings-option">
                         <div>
                             <h4><i class="fab fa-paypal" style="margin-right: 0.5rem;"></i> PayPal</h4>
                             <p>john@example.com</p>
@@ -2983,9 +2635,9 @@
                     <button class="btn btn-primary" style="margin-top: 1rem;">Add Payment Method</button>
                 </div>
 
-                <div class="profile-section" data-aos="fade-up" data-aos-delay="400">
+                <div class="profile-section">
                     <h3>Settings</h3>
-                    <div class="settings-option glassmorphic">
+                    <div class="settings-option">
                         <div>
                             <h4>Email Notifications</h4>
                             <p>Receive email updates about your authentications</p>
@@ -2995,7 +2647,7 @@
                             <span class="slider"></span>
                         </label>
                     </div>
-                    <div class="settings-option glassmorphic">
+                    <div class="settings-option">
                         <div>
                             <h4>Two-Factor Authentication</h4>
                             <p>Add an extra layer of security to your account</p>
@@ -3005,7 +2657,7 @@
                             <span class="slider"></span>
                         </label>
                     </div>
-                    <div class="settings-option glassmorphic">
+                    <div class="settings-option">
                         <div>
                             <h4>Dark Mode</h4>
                             <p>Switch between light and dark themes</p>
@@ -3022,7 +2674,7 @@
 
     <!-- Payment Confirmation Modal -->
     <div class="modal-overlay" id="paymentConfirmationModal">
-        <div class="modal glassmorphic">
+        <div class="modal">
             <button class="modal-close" id="closePaymentConfirmationModal">
                 <i class="fas fa-times"></i>
             </button>
@@ -3040,12 +2692,6 @@
         </div>
     </div>
 
-    <!-- Scroll to top button -->
-    <div class="scroll-top" id="scrollTop">
-        <i class="fas fa-arrow-up"></i>
-    </div>
-
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
         // SneakerVerifier class - AI-driven verification process
         class SneakerVerifier {
@@ -3201,7 +2847,7 @@
         }
 
         // Store uploaded images
-        var uploadedImages = {
+        const uploadedImages = {
             leftSide: null,
             rightSide: null,
             sole: null
@@ -3259,8 +2905,6 @@
         const profileFullName = document.getElementById('profileFullName');
         const profileEmailInput = document.getElementById('profileEmailInput');
         const profilePhone = document.getElementById('profilePhone');
-        const scrollTop = document.getElementById('scrollTop');
-        const header = document.getElementById('header');
 
         // Multi-step authentication elements
         const authSteps = document.getElementById('authSteps');
@@ -3274,59 +2918,6 @@
         const resendOtp = document.getElementById('resendOtp');
         const completeAuthBtn = document.getElementById('completeAuthBtn');
         const otpInputs = document.querySelectorAll('.otp-input');
-
-        // Initialize AOS (Animate on Scroll)
-        function initAOS() {
-            AOS.init({
-                duration: 800,
-                easing: 'ease-in-out',
-                once: true,
-                mirror: false
-            });
-        }
-
-        // Initialize scroll effects
-        function initScrollEffects() {
-            // Process steps scroll animation
-            const processSteps = document.querySelectorAll('.process-step');
-            
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.3
-            };
-            
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
-            }, observerOptions);
-            
-            processSteps.forEach(step => {
-                observer.observe(step);
-            });
-            
-            // Header scroll effect
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 100) {
-                    header.classList.add('scrolled');
-                    scrollTop.classList.add('active');
-                } else {
-                    header.classList.remove('scrolled');
-                    scrollTop.classList.remove('active');
-                }
-            });
-            
-            // Scroll to top button
-            scrollTop.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-        }
 
         // Initialize verification module
         function initVerification() {
@@ -3508,7 +3099,7 @@
                         id: 'user_' + Date.now(),
                         name,
                         email,
-                        credits: 100,
+                        credits: 10,
                         createdAt: new Date().toISOString()
                     };
                     
@@ -3892,501 +3483,423 @@
                 loadDashboard();
                 
                 // Show success message
-                alert('Verification submitted successfully! You will be notified when the process is complete.');
-                
+                alert(`Verification completed! Result: ${results.isAuthentic ? 'Authentic' : 'Not Authentic'}`);
             } catch (error) {
-                console.error('Verification error:', error);
+                console.error("Verification error:", error);
                 alert('Error during verification: ' + error.message);
             }
         }
 
-        // Deduct credits from user
-        function deductCreditsFromUser(userId, amount) {
-            if (currentUser && currentUser.id === userId) {
-                currentUser.credits -= amount;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                updateCreditDisplay();
-            }
-        }
-
         // Store verification result
-        function storeVerificationResult(result) {
-            // Get existing verifications from localStorage
-            let verifications = JSON.parse(localStorage.getItem('verifications')) || [];
-            
-            // Add new verification
+        function storeVerificationResult(results) {
+            // Create verification object
             const verification = {
-                id: result.verificationId,
+                id: results.verificationId,
                 userId: currentUser.id,
-                sneakerDetails: verifier.sneakerDetails,
-                images: {
-                    leftSide: uploadedImages.leftSide,
-                    rightSide: uploadedImages.rightSide,
-                    sole: uploadedImages.sole
-                },
-                result: result,
-                status: 'pending',
-                createdAt: new Date().toISOString()
+                brand: verifier.sneakerDetails.brand,
+                model: verifier.sneakerDetails.model,
+                size: verifier.sneakerDetails.size,
+                colorway: verifier.sneakerDetails.colorway,
+                status: results.isAuthentic ? 'verified' : 'rejected',
+                timestamp: results.timestamp,
+                confidenceScore: results.confidenceScore,
+                analysisPoints: results.analysisPoints
             };
             
+            // Store in localStorage
+            const verifications = JSON.parse(localStorage.getItem('verifications') || '[]');
             verifications.push(verification);
-            
-            // Store in localStorage
             localStorage.setItem('verifications', JSON.stringify(verifications));
             
-            // For demo purposes, simulate verification completion after 5 seconds
-            setTimeout(() => {
-                completeVerification(verification.id);
-            }, 5000);
-        }
-
-        // Complete verification (for demo purposes)
-        function completeVerification(verificationId) {
-            // Get existing verifications from localStorage
-            let verifications = JSON.parse(localStorage.getItem('verifications')) || [];
-            
-            // Find verification by ID
-            const index = verifications.findIndex(v => v.id === verificationId);
-            if (index === -1) return;
-            
-            // Update verification status
-            verifications[index].status = 'completed';
-            verifications[index].completedAt = new Date().toISOString();
-            
-            // If authentic, generate certificate
-            if (verifications[index].result.isAuthentic) {
-                // Set up verifier with the verification data
-                const tempVerifier = new SneakerVerifier();
-                tempVerifier.setSneakerDetails(
-                    verifications[index].sneakerDetails.brand,
-                    verifications[index].sneakerDetails.model,
-                    verifications[index].sneakerDetails.size,
-                    verifications[index].sneakerDetails.colorway
-                );
-                tempVerifier.setImage('leftSide', verifications[index].images.leftSide);
-                tempVerifier.setImage('rightSide', verifications[index].images.rightSide);
-                tempVerifier.setImage('sole', verifications[index].images.sole);
-                tempVerifier.verificationResults = verifications[index].result;
-                
-                // Generate certificate
-                const certificate = tempVerifier.generateCertificate();
-                
-                // Store certificate
-                storeCertificate(certificate);
-                
-                                // Update verification with certificate ID
-                                verifications[index].certificateId = certificate.id;
-            }
-            
-            // Update in localStorage
-            localStorage.setItem('verifications', JSON.stringify(verifications));
-            
-            // Update dashboard if on dashboard page
-            if (document.getElementById('dashboard').classList.contains('active')) {
-                loadDashboard();
+            // If authentic, create certificate
+            if (results.isAuthentic) {
+                try {
+                    const certificate = verifier.generateCertificate();
+                    
+                    // Store certificate in localStorage
+                    const certificates = JSON.parse(localStorage.getItem('certificates') || '[]');
+                    certificates.push(certificate);
+                    localStorage.setItem('certificates', JSON.stringify(certificates));
+                } catch (error) {
+                    console.error("Certificate generation error:", error);
+                }
             }
         }
 
-        // Store certificate
-        function storeCertificate(certificate) {
-            // Get existing certificates from localStorage
-            let certificates = JSON.parse(localStorage.getItem('certificates')) || [];
-            
-            // Add new certificate
-            certificates.push(certificate);
-            
-            // Store in localStorage
-            localStorage.setItem('certificates', JSON.stringify(certificates));
-        }
-
-        // Load dashboard data
-        function loadDashboard() {
-            if (!currentUser) return;
-            
-            // Get verifications from localStorage
-            const verifications = JSON.parse(localStorage.getItem('verifications')) || [];
-            const userVerifications = verifications.filter(v => v.userId === currentUser.id);
-            
-            // Get certificates from localStorage
-            const certificates = JSON.parse(localStorage.getItem('certificates')) || [];
-            const userCertificates = certificates.filter(c => c.sneakerDetails && c.sneakerDetails.userId === currentUser.id);
-            
-            // Update stats
-            document.getElementById('creditsValue').textContent = currentUser.credits;
-            document.getElementById('pendingValue').textContent = userVerifications.filter(v => v.status === 'pending').length;
-            document.getElementById('completedValue').textContent = userVerifications.filter(v => v.status === 'completed').length;
-            document.getElementById('certificatesValue').textContent = userCertificates.length;
-            
-            // Update history list
-            historyList.innerHTML = '';
-            
-            if (userVerifications.length === 0) {
-                historyList.innerHTML = '<p style="text-align: center; margin-top: 2rem;">No authentication requests yet.</p>';
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+                if (darkModeToggle) darkModeToggle.checked = true;
             } else {
-                // Sort by date (newest first)
-                userVerifications.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                
-                // Display only the 5 most recent
-                userVerifications.slice(0, 5).forEach(verification => {
-                    const historyItem = document.createElement('div');
-                    historyItem.className = 'history-item glassmorphic';
-                    historyItem.dataset.id = verification.id;
-                    
-                    const statusClass = verification.status === 'pending' ? 'status-pending' : 
-                                        verification.result && verification.result.isAuthentic ? 'status-verified' : 'status-rejected';
-                    
-                    const statusText = verification.status === 'pending' ? 'Pending' : 
-                                      verification.result && verification.result.isAuthentic ? 'Verified' : 'Rejected';
-                    
-                    historyItem.innerHTML = `
-                        <div class="history-details">
-                            <h4>${verification.sneakerDetails.brand} ${verification.sneakerDetails.model}</h4>
-                            <p>Submitted on ${new Date(verification.createdAt).toLocaleDateString()}</p>
-                        </div>
-                        <div class="history-status ${statusClass}">${statusText}</div>
-                    `;
-                    
-                    historyItem.addEventListener('click', () => {
-                        if (verification.status === 'completed' && verification.result.isAuthentic) {
-                            // Navigate to certificate page
-                            showPage('certificates');
-                            
-                            // Show certificate
-                            showCertificate(verification.certificateId);
-                        } else if (verification.status === 'completed') {
-                            // Show verification result
-                            alert(`Verification Result: ${verification.result.isAuthentic ? 'Authentic' : 'Not Authentic'}\nConfidence: ${verification.result.confidenceScore}%\nAnalysis: ${verification.result.analysisPoints.join(', ')}`);
-                        } else {
-                            // Show pending message
-                            alert('This verification is still being processed. You will be notified when it is complete.');
-                        }
-                    });
-                    
-                    historyList.appendChild(historyItem);
-                });
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+                if (darkModeToggle) darkModeToggle.checked = false;
             }
         }
 
-        // Load certificates
-        function loadCertificates() {
-            if (!currentUser) return;
-            
-            // Get certificates from localStorage
-            const certificates = JSON.parse(localStorage.getItem('certificates')) || [];
-            const userCertificates = certificates.filter(c => c.sneakerDetails && c.sneakerDetails.userId === currentUser.id);
-            
-            // Update certificates list
-            certificatesList.innerHTML = '';
-            
-            if (userCertificates.length === 0) {
-                certificatesList.innerHTML = '<p style="text-align: center; margin-top: 2rem;">No certificates yet. Authenticate your sneakers to get certificates.</p>';
-            } else {
-                // Sort by date (newest first)
-                userCertificates.sort((a, b) => new Date(b.issuedAt) - new Date(a.issuedAt));
-                
-                userCertificates.forEach(certificate => {
-                    const certificateItem = document.createElement('div');
-                    certificateItem.className = 'history-item glassmorphic';
-                    certificateItem.dataset.id = certificate.id;
-                    
-                    certificateItem.innerHTML = `
-                        <div class="history-details">
-                            <h4>${certificate.sneakerDetails.brand} ${certificate.sneakerDetails.model}</h4>
-                            <p>Issued on ${new Date(certificate.issuedAt).toLocaleDateString()}</p>
-                        </div>
-                        <div class="history-status status-verified">Verified</div>
-                    `;
-                    
-                    certificateItem.addEventListener('click', () => {
-                        showCertificate(certificate.id);
-                    });
-                    
-                    certificatesList.appendChild(certificateItem);
-                });
-            }
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+            if (darkModeToggle) darkModeToggle.checked = true;
         }
 
-        // Show certificate
-        function showCertificate(certificateId) {
-            // Get certificates from localStorage
-            const certificates = JSON.parse(localStorage.getItem('certificates')) || [];
-            const certificate = certificates.find(c => c.id === certificateId);
-            
-            if (!certificate) {
-                alert('Certificate not found');
-                return;
-            }
-            
-            // Update certificate viewer
-            document.getElementById('certDate').textContent = new Date(certificate.issuedAt).toLocaleDateString();
-            document.getElementById('certBrand').textContent = certificate.sneakerDetails.brand;
-            document.getElementById('certModel').textContent = certificate.sneakerDetails.model;
-            document.getElementById('certSize').textContent = certificate.sneakerDetails.size;
-            document.getElementById('certId').textContent = certificate.id;
-            document.getElementById('blockchainTokenId').textContent = certificate.tokenId;
-            document.getElementById('blockchainTxId').textContent = certificate.transactionId;
-            document.getElementById('blockchainTimestamp').textContent = new Date(certificate.issuedAt).getTime() / 1000;
-            
-            // Update certificate images
-            const certificateImages = document.querySelectorAll('.certificate-image img');
-            certificateImages[0].src = certificate.images.leftSide;
-            certificateImages[1].src = certificate.images.rightSide;
-            certificateImages[2].src = certificate.images.sole;
-            
-            // Show certificate viewer
-            document.getElementById('certificateViewer').style.display = 'block';
+        themeToggle.addEventListener('click', toggleTheme);
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('change', toggleTheme);
         }
 
-        // Update credit display
-        function updateCreditDisplay() {
-            if (currentUser) {
-                headerCredits.textContent = currentUser.credits;
-                authPageCredits.textContent = currentUser.credits;
-            }
-        }
+        // Mobile Menu Toggle
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
 
-        // Update user UI
-        function updateUserUI() {
-            if (currentUser) {
-                // Update user avatar
-                const initials = currentUser.name.split(' ').map(n => n[0]).join('');
-                userAvatar.innerHTML = initials;
-                profileAvatar.innerHTML = initials;
+        // Navigation
+        navLinkElements.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetPage = link.getAttribute('data-page');
                 
-                // Update profile info
-                profileName.textContent = currentUser.name;
-                profileEmail.textContent = currentUser.email;
-                profileJoinDate.textContent = new Date(currentUser.createdAt).toLocaleDateString();
+                // Check if user is logged in
+                if (!currentUser && targetPage !== 'home' && targetPage !== 'auth') {
+                    showPage('auth');
+                    return;
+                }
                 
-                // Update profile form
-                profileFullName.value = currentUser.name;
-                profileEmailInput.value = currentUser.email;
+                showPage(targetPage);
                 
-                // Update credit display
-                updateCreditDisplay();
-            }
-        }
+                // Close mobile menu if open
+                navLinks.classList.remove('active');
+                
+                // Update URL hash
+                window.location.hash = targetPage;
+            });
+        });
 
-        // Show page
         function showPage(pageId) {
             // Hide all pages
             pages.forEach(page => {
                 page.classList.remove('active');
             });
             
-            // Show selected page
+            // Show target page
             document.getElementById(pageId).classList.add('active');
-            
-            // Update nav links
-            navLinkElements.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('data-page') === pageId) {
-                    link.classList.add('active');
+        }
+
+        // Handle URL hash on page load
+        function handleHash() {
+            const hash = window.location.hash.substring(1);
+            if (hash && document.getElementById(hash)) {
+                // Check if user is logged in
+                if (!currentUser && hash !== 'home' && hash !== 'auth') {
+                    showPage('auth');
+                    return;
                 }
+                
+                showPage(hash);
+            }
+        }
+
+        window.addEventListener('load', handleHash);
+        window.addEventListener('hashchange', handleHash);
+
+        // Tab Switching
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Update active content
+                tabContents.forEach(content => content.classList.remove('active'));
+                document.getElementById(tabId).classList.add('active');
             });
+        });
+
+        // User Profile Dropdown
+        userProfile.addEventListener('click', () => {
+            userDropdown.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!userProfile.contains(e.target)) {
+                userDropdown.classList.remove('active');
+            }
+        });
+
+        // Profile button
+        profileBtn.addEventListener('click', () => {
+            showPage('profile');
+            userDropdown.classList.remove('active');
+        });
+
+        // Settings button
+        settingsBtn.addEventListener('click', () => {
+            showPage('profile');
+            userDropdown.classList.remove('active');
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            // Clear current user
+            currentUser = null;
+            localStorage.removeItem('currentUser');
             
-            // Load page data
-            if (pageId === 'dashboard') {
+            // Update UI
+            updateUserUI();
+            
+            // Navigate to auth
+            showPage('auth');
+            
+            // Reset auth steps
+            goToAuthStep(1);
+        });
+
+        // Buy Credits Button
+        buyCreditsBtn.addEventListener('click', () => {
+            showPage('buy-credits');
+        });
+
+        // Deduct credits from user
+        function deductCreditsFromUser(userId, amount) {
+            // Update current user
+            if (currentUser && currentUser.id === userId) {
+                currentUser.credits -= amount;
+                updateCreditDisplay();
+            }
+            
+            // Update in localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const userIndex = users.findIndex(u => u.id === userId);
+            if (userIndex !== -1) {
+                users[userIndex].credits -= amount;
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            // Update current user in localStorage
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        }
+
+        // Update Credit Display
+        function updateCreditDisplay() {
+            if (currentUser) {
+                headerCredits.textContent = currentUser.credits;
+                if (authPageCredits) authPageCredits.textContent = currentUser.credits;
+                if (document.getElementById('creditsValue')) {
+                    document.getElementById('creditsValue').textContent = currentUser.credits;
+                }
+            }
+        }
+
+        // Update User UI
+        function updateUserUI() {
+            if (currentUser) {
+                // Show user profile
+                userProfile.style.display = 'flex';
+                
+                // Update avatar with initials
+                const initials = currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                userAvatar.innerHTML = initials;
+                
+                // Update profile page if it exists
+                if (profileAvatar) profileAvatar.innerHTML = initials;
+                if (profileName) profileName.textContent = currentUser.name;
+                if (profileEmail) profileEmail.textContent = currentUser.email;
+                if (profileJoinDate) {
+                    const joinDate = new Date(currentUser.createdAt);
+                    profileJoinDate.textContent = joinDate.toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
+                }
+                if (profileFullName) profileFullName.value = currentUser.name;
+                if (profileEmailInput) profileEmailInput.value = currentUser.email;
+                
+                // Update credit display
+                updateCreditDisplay();
+                
+                // Load dashboard data
                 loadDashboard();
-            } else if (pageId === 'certificates') {
-                loadCertificates();
-            }
-            
-            // Scroll to top
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-            
-            // Close mobile menu if open
-            navLinks.classList.remove('active');
-        }
-
-        // Toggle theme
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark-mode');
-            
-            // Update theme toggle icon
-            const icon = themeToggle.querySelector('i');
-            if (document.documentElement.classList.contains('dark-mode')) {
-                icon.className = 'fas fa-sun';
-                darkModeToggle.checked = true;
             } else {
-                icon.className = 'fas fa-moon';
-                darkModeToggle.checked = false;
+                // Hide user profile
+                userProfile.style.display = 'none';
             }
-            
-            // Store theme preference
-            localStorage.setItem('darkMode', document.documentElement.classList.contains('dark-mode'));
         }
 
-        // Initialize app
-        function initApp() {
-            // Check for dark mode preference
-            const darkMode = localStorage.getItem('darkMode') === 'true';
-            if (darkMode) {
-                document.documentElement.classList.add('dark-mode');
-                themeToggle.querySelector('i').className = 'fas fa-sun';
-                darkModeToggle.checked = true;
+        // Load Dashboard Data
+        function loadDashboard() {
+            if (!currentUser) return;
+            
+            // Load verifications from localStorage
+            const verifications = JSON.parse(localStorage.getItem('verifications') || '[]');
+            const userVerifications = verifications.filter(v => v.userId === currentUser.id);
+            
+            // Update stats
+            if (document.getElementById('creditsValue')) {
+                document.getElementById('creditsValue').textContent = currentUser.credits;
             }
             
-            // Check for logged in user
-            const storedUser = localStorage.getItem('currentUser');
-            if (storedUser) {
-                currentUser = JSON.parse(storedUser);
-                updateUserUI();
-                showPage('dashboard');
+            const pending = userVerifications.filter(v => v.status === 'processing').length;
+            if (document.getElementById('pendingValue')) {
+                document.getElementById('pendingValue').textContent = pending;
             }
             
-            // Initialize AOS
-            initAOS();
+            const completed = userVerifications.filter(v => v.status === 'verified' || v.status === 'rejected').length;
+            if (document.getElementById('completedValue')) {
+                document.getElementById('completedValue').textContent = completed;
+            }
             
-            // Initialize scroll effects
-            initScrollEffects();
+            // Count certificates
+            const certificates = JSON.parse(localStorage.getItem('certificates') || '[]');
+            const userCertificates = certificates.filter(c => userVerifications.some(v => v.id === c.verificationId));
             
-            // Initialize verification module
-            initVerification();
+            if (document.getElementById('certificatesValue')) {
+                document.getElementById('certificatesValue').textContent = userCertificates.length;
+            }
             
-            // Initialize buy credits module
-            initBuyCredits();
-            
-            // Initialize multi-step authentication
-            initMultiStepAuth();
-            
-            // Set up event listeners
-            setupEventListeners();
-        }
-
-        // Set up event listeners
-        function setupEventListeners() {
-            // Theme toggle
-            themeToggle.addEventListener('click', toggleTheme);
-            darkModeToggle.addEventListener('change', toggleTheme);
-            
-            // Mobile menu toggle
-            mobileMenuBtn.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-            });
-            
-            // Navigation links
-            navLinkElements.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const pageId = link.getAttribute('data-page');
-                    showPage(pageId);
+            // Populate history list
+            if (historyList) {
+                historyList.innerHTML = '';
+                
+                if (userVerifications.length === 0) {
+                    historyList.innerHTML = '<p>No authentication requests yet.</p>';
+                    return;
+                }
+                
+                // Sort by timestamp (newest first)
+                userVerifications.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                
+                userVerifications.forEach(verification => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    
+                    const statusClass = verification.status === 'processing' ? 'status-pending' : 
+                                      verification.status === 'verified' ? 'status-verified' : 'status-rejected';
+                    
+                    const statusText = verification.status === 'processing' ? 'Processing' : 
+                                     verification.status === 'verified' ? 'Authentic' : 'Not Authentic';
+                    
+                    historyItem.innerHTML = `
+                        <div class="history-details">
+                            <h4>${verification.brand} ${verification.model}</h4>
+                            <p>ID: ${verification.id} | Size: ${verification.size}</p>
+                            <p>Submitted: ${new Date(verification.timestamp).toLocaleString()}</p>
+                        </div>
+                        <div class="history-status ${statusClass}">
+                            ${statusText}
+                        </div>
+                    `;
+                    
+                    historyList.appendChild(historyItem);
                 });
-            });
+            }
             
-            // Tab switching
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabId = tab.getAttribute('data-tab');
+            // Populate certificates list
+            if (certificatesList) {
+                certificatesList.innerHTML = '';
+                
+                if (userCertificates.length === 0) {
+                    certificatesList.innerHTML = '<p>No certificates available yet.</p>';
+                    return;
+                }
+                
+                // Sort by timestamp (newest first)
+                userCertificates.sort((a, b) => new Date(b.issuedAt) - new Date(a.issuedAt));
+                
+                userCertificates.forEach(certificate => {
+                    const certItem = document.createElement('div');
+                    certItem.className = 'history-item';
                     
-                    // Update active tab
-                    tabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
+                    certItem.innerHTML = `
+                        <div class="history-details">
+                            <h4>${certificate.sneakerDetails.brand} ${certificate.sneakerDetails.model}</h4>
+                            <p>Certificate ID: ${certificate.id}</p>
+                            <p>Issued: ${new Date(certificate.issuedAt).toLocaleString()}</p>
+                        </div>
+                        <div class="btn btn-primary view-cert-btn">View Certificate</div>
+                    `;
                     
-                    // Show tab content
-                    tabContents.forEach(content => {
-                        content.classList.remove('active');
-                        if (content.id === tabId) {
-                            content.classList.add('active');
-                        }
+                    certificatesList.appendChild(certItem);
+                    
+                    // Add click event to view certificate
+                    const viewBtn = certItem.querySelector('.view-cert-btn');
+                    viewBtn.addEventListener('click', () => {
+                        viewCertificate(certificate);
                     });
                 });
-            });
+            }
+        }
+
+        // View Certificate
+        function viewCertificate(certificate) {
+            const certificateViewer = document.getElementById('certificateViewer');
+            if (!certificateViewer) return;
             
-            // User profile dropdown
-            userProfile.addEventListener('click', () => {
-                userDropdown.classList.toggle('active');
-            });
+            // Update certificate details
+            document.getElementById('certDate').textContent = new Date(certificate.issuedAt).toLocaleDateString();
+            document.getElementById('certBrand').textContent = certificate.sneakerDetails.brand;
+            document.getElementById('certModel').textContent = certificate.sneakerDetails.model;
+            document.getElementById('certSize').textContent = certificate.sneakerDetails.size;
+            document.getElementById('certId').textContent = certificate.id;
             
-            // Close dropdown when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!userProfile.contains(e.target)) {
-                    userDropdown.classList.remove('active');
-                }
-            });
+            // Update blockchain info
+            document.getElementById('blockchainTokenId').textContent = certificate.tokenId;
+            document.getElementById('blockchainTxId').textContent = certificate.transactionId;
+            document.getElementById('blockchainTimestamp').textContent = new Date(certificate.issuedAt).getTime() / 1000;
             
-            // Profile button
-            profileBtn.addEventListener('click', () => {
-                showPage('profile');
-                userDropdown.classList.remove('active');
-            });
+            // Show certificate viewer
+            certificateViewer.style.display = 'block';
             
-            // Settings button
-            settingsBtn.addEventListener('click', () => {
-                showPage('profile');
-                userDropdown.classList.remove('active');
-                
-                // Scroll to settings section
-                const settingsSection = document.querySelector('.profile-section:last-child');
-                if (settingsSection) {
-                    setTimeout(() => {
-                        settingsSection.scrollIntoView({ behavior: 'smooth' });
-                    }, 100);
-                }
-            });
-            
-            // Logout button
-            logoutBtn.addEventListener('click', () => {
-                // Clear current user
-                currentUser = null;
-                localStorage.removeItem('currentUser');
-                
-                // Navigate to auth page
-                showPage('auth');
-                userDropdown.classList.remove('active');
-                
-                // Reset auth form
-                goToAuthStep(1);
-                document.getElementById('loginEmail').value = '';
-                document.getElementById('loginPassword').value = '';
-                document.getElementById('registerName').value = '';
-                document.getElementById('registerEmail').value = '';
-                document.getElementById('registerPassword').value = '';
-                document.getElementById('registerConfirmPassword').value = '';
-            });
-            
-            // Buy credits button
-            buyCreditsBtn.addEventListener('click', () => {
-                showPage('buy-credits');
-            });
-            
-            // Profile form
+            // Scroll to certificate viewer
+            certificateViewer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Profile form submission
+        if (profileForm) {
             profileForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 
-                // Update user data
-                if (currentUser) {
-                    currentUser.name = profileFullName.value;
-                    currentUser.email = profileEmailInput.value;
-                    
-                    // Update in localStorage
-                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                    
-                    // Update UI
-                    updateUserUI();
-                    
-                    // Show success message
-                    alert('Profile updated successfully');
-                }
+                if (!currentUser) return;
+                
+                // Update user details
+                currentUser.name = profileFullName.value;
+                currentUser.email = profileEmailInput.value;
+                currentUser.phone = profilePhone.value;
+                
+                // Update in localStorage
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // Update UI
+                updateUserUI();
+                
+                alert('Profile updated successfully');
             });
-            
-            // Security form
+        }
+
+        // Security form submission
+        if (securityForm) {
             securityForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 
-                // Validate passwords
+                if (!currentUser) return;
+                
                 const currentPassword = document.getElementById('currentPassword').value;
                 const newPassword = document.getElementById('newPassword').value;
                 const confirmNewPassword = document.getElementById('confirmNewPassword').value;
                 
-                if (!currentPassword || !newPassword || !confirmNewPassword) {
-                    alert('Please fill in all password fields');
-                    return;
-                }
-                
+                // Validate passwords
                 if (newPassword !== confirmNewPassword) {
                     alert('New passwords do not match');
                     return;
@@ -4396,14 +3909,115 @@
                 alert('Password updated successfully');
                 
                 // Clear form
-                document.getElementById('currentPassword').value = '';
-                document.getElementById('newPassword').value = '';
-                document.getElementById('confirmNewPassword').value = '';
+                securityForm.reset();
             });
         }
 
-        // Initialize app on load
-        document.addEventListener('DOMContentLoaded', initApp);
+        // Mock Data Generation (for demo purposes)
+        function generateMockData() {
+            // Check if mock data already exists
+            if (localStorage.getItem('mockDataGenerated')) {
+                return;
+            }
+            
+            // Generate mock users
+            const mockUsers = [
+                {
+                    id: 'user_1',
+                    name: 'John Doe',
+                    email: 'john@example.com',
+                    password: 'password',
+                    credits: 24,
+                    createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
+                }
+            ];
+            
+            localStorage.setItem('users', JSON.stringify(mockUsers));
+            
+            // Generate mock authentication requests
+            const mockVerifications = [
+                {
+                    id: 'VRF-1234ABCD',
+                    userId: 'user_1',
+                    brand: 'Nike',
+                    model: 'Air Jordan 1 High OG',
+                    size: 'US 10',
+                    colorway: 'Chicago',
+                    status: 'verified',
+                    timestamp: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+                    confidenceScore: 95,
+                    analysisPoints: [
+                        "Stitching pattern matches authentic reference samples",
+                        "Material quality consistent with manufacturer standards",
+                        "Logo placement and proportions are correct",
+                        "Nike swoosh shape and proportions are correct"
+                    ]
+                },
+                {
+                    id: 'VRF-5678EFGH',
+                    userId: 'user_1',
+                    brand: 'Adidas',
+                    model: 'Yeezy Boost 350 V2',
+                    size: 'US 9.5',
+                    colorway: 'Zebra',
+                    status: 'processing',
+                    timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+                }
+            ];
+            
+            localStorage.setItem('verifications', JSON.stringify(mockVerifications));
+            
+            // Generate mock certificates
+            const mockCertificates = [
+                {
+                    id: 'CERT-123456789',
+                    verificationId: 'VRF-1234ABCD',
+                    tokenId: '0.0.123456',
+                    transactionId: '0.0.654321@1234567890.000000000',
+                    sneakerDetails: {
+                        brand: 'Nike',
+                        model: 'Air Jordan 1 High OG',
+                        size: 'US 10',
+                        colorway: 'Chicago'
+                    },
+                    issuedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000 + 3600000).toISOString(),
+                    issuer: 'SneakerVerify Platform'
+                }
+            ];
+            
+            localStorage.setItem('certificates', JSON.stringify(mockCertificates));
+            localStorage.setItem('mockDataGenerated', 'true');
+        }
+
+        // Check for logged in user
+        function checkLoggedInUser() {
+            const savedUser = localStorage.getItem('currentUser');
+            
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                updateUserUI();
+                
+                // If on auth page, redirect to home
+                if (document.getElementById('auth').classList.contains('active')) {
+                    showPage('home');
+                }
+            } else {
+                // If not on auth or home page, redirect to auth
+                const activePage = document.querySelector('.page.active');
+                if (activePage && activePage.id !== 'auth' && activePage.id !== 'home') {
+                    showPage('auth');
+                }
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            generateMockData();
+            checkLoggedInUser();
+            initVerification();
+            initBuyCredits();
+            initMultiStepAuth();
+        });
     </script>
 </body>
 </html>
