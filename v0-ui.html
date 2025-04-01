@@ -1,0 +1,3158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMANA - Blockchain Authentication</title>
+    <link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXNoaWVsZCI+PHBhdGggZD0iTTEyIDIycy04LTQtOC0xMFY1bDgtM2w4IDN2N2MwIDYtOCAxMC04IDEwWiIvPjwvc3ZnPg==" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles and Variables */
+        :root {
+            /* Light Mode */
+            --background: #f9f9f9;
+            --foreground: #121212;
+            --card: #ffffff;
+            --card-foreground: #121212;
+            --popover: #ffffff;
+            --popover-foreground: #121212;
+            --primary: #121212;
+            --primary-foreground: #f9f9f9;
+            --secondary: #f0f0f0;
+            --secondary-foreground: #121212;
+            --muted: #f0f0f0;
+            --muted-foreground: #6f6f6f;
+            --accent: #f0f0f0;
+            --accent-foreground: #121212;
+            --destructive: #ef4444;
+            --destructive-foreground: #f9f9f9;
+            --border: #e4e4e7;
+            --input: #e4e4e7;
+            --ring: #121212;
+            --radius: 0.5rem;
+            
+            /* Accent Colors */
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-purple: #8b5cf6;
+            --accent-yellow: #f59e0b;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark {
+            --background: #121212;
+            --foreground: #f9f9f9;
+            --card: #1e1e1e;
+            --card-foreground: #f9f9f9;
+            --popover: #1e1e1e;
+            --popover-foreground: #f9f9f9;
+            --primary: #f9f9f9;
+            --primary-foreground: #121212;
+            --secondary: #2a2a2a;
+            --secondary-foreground: #f9f9f9;
+            --muted: #2a2a2a;
+            --muted-foreground: #a1a1aa;
+            --accent: #2a2a2a;
+            --accent-foreground: #f9f9f9;
+            --destructive: #7f1d1d;
+            --destructive-foreground: #f9f9f9;
+            --border: #2a2a2a;
+            --input: #2a2a2a;
+            --ring: #f9f9f9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.5;
+            min-height: 100vh;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Liquid Animated Background */
+        .liquid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .liquid-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.15;
+            transition: background-color 0.5s ease;
+        }
+
+        .liquid-shape:nth-child(1) {
+            width: 500px;
+            height: 500px;
+            top: -100px;
+            left: -100px;
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
+            animation: float-slow 25s infinite alternate ease-in-out;
+        }
+
+        .liquid-shape:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            top: 60%;
+            right: -100px;
+            background: linear-gradient(45deg, var(--accent-purple), var(--accent-red));
+            animation: float-slow 20s infinite alternate-reverse ease-in-out;
+        }
+
+        .liquid-shape:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            bottom: -100px;
+            left: 30%;
+            background: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));
+            animation: float-slow 18s infinite alternate ease-in-out;
+        }
+
+        .liquid-shape:nth-child(4) {
+            width: 200px;
+            height: 200px;
+            top: 30%;
+            left: 60%;
+            background: linear-gradient(45deg, var(--accent-yellow), var(--accent-blue));
+            animation: float-slow 15s infinite alternate-reverse ease-in-out;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: -0.03em;
+        }
+
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            position: relative;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .space-x-8 > * + * {
+            margin-left: 2rem;
+        }
+
+        .space-y-8 > * + * {
+            margin-top: 2rem;
+        }
+
+        .space-y-16 > * + * {
+            margin-top: 4rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .relative {
+            position: relative;
+        }
+
+        .absolute {
+            position: absolute;
+        }
+
+        .fixed {
+            position: fixed;
+        }
+
+        .inset-0 {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .z-10 {
+            z-index: 10;
+        }
+
+        .z-50 {
+            z-index: 50;
+        }
+
+        /* Typography */
+        .text-center {
+            text-align: center;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .text-lg {
+            font-size: 1.125rem;
+        }
+
+        .text-xl {
+            font-size: 1.25rem;
+        }
+
+        .text-2xl {
+            font-size: 1.5rem;
+        }
+
+        .text-3xl {
+            font-size: 1.875rem;
+        }
+
+        .text-4xl {
+            font-size: 2.25rem;
+        }
+
+        .text-5xl {
+            font-size: 3rem;
+        }
+
+        .font-bold {
+            font-weight: 700;
+        }
+
+        .font-semibold {
+            font-weight: 600;
+        }
+
+        .font-medium {
+            font-weight: 500;
+        }
+
+        .text-foreground {
+            color: var(--foreground);
+        }
+
+        .text-primary {
+            color: var(--primary);
+        }
+
+        .text-muted-foreground {
+            color: var(--muted-foreground);
+        }
+
+        .text-white {
+            color: white;
+        }
+
+        .text-destructive {
+            color: var(--destructive);
+        }
+
+        .text-accent-blue {
+            color: var(--accent-blue);
+        }
+
+        .text-accent-green {
+            color: var(--accent-green);
+        }
+
+        .text-accent-red {
+            color: var(--accent-red);
+        }
+
+        /* Spacing */
+        .p-1 { padding: 0.25rem; }
+        .p-2 { padding: 0.5rem; }
+        .p-3 { padding: 0.75rem; }
+        .p-4 { padding: 1rem; }
+        .p-5 { padding: 1.25rem; }
+        .p-6 { padding: 1.5rem; }
+        .p-8 { padding: 2rem; }
+        .p-10 { padding: 2.5rem; }
+
+        .px-1 { padding-left: 0.25rem; padding-right: 0.25rem; }
+        .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+        .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .px-5 { padding-left: 1.25rem; padding-right: 1.25rem; }
+        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .px-8 { padding-left: 2rem; padding-right: 2rem; }
+        .px-10 { padding-left: 2.5rem; padding-right: 2.5rem; }
+
+        .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+        .py-5 { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+        .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+        .py-7 { padding-top: 1.75rem; padding-bottom: 1.75rem; }
+        .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+        .py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+        .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+        .py-24 { padding-top: 6rem; padding-bottom: 6rem; }
+
+        .pt-24 { padding-top: 6rem; }
+
+        .m-1 { margin: 0.25rem; }
+        .m-2 { margin: 0.5rem; }
+        .m-3 { margin: 0.75rem; }
+        .m-4 { margin: 1rem; }
+
+        .mx-auto { margin-left: auto; margin-right: auto; }
+
+        .ml-1 { margin-left: 0.25rem; }
+        .ml-2 { margin-left: 0.5rem; }
+        .ml-3 { margin-left: 0.75rem; }
+        .ml-4 { margin-left: 1rem; }
+
+        .mr-1 { margin-right: 0.25rem; }
+        .mr-2 { margin-right: 0.5rem; }
+        .mr-3 { margin-right: 0.75rem; }
+        .mr-4 { margin-right: 1rem; }
+
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-5 { margin-bottom: 1.25rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-7 { margin-bottom: 1.75rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mb-10 { margin-bottom: 2.5rem; }
+        .mb-16 { margin-bottom: 4rem; }
+
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-3 { margin-top: 0.75rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mt-8 { margin-top: 2rem; }
+
+        .max-w-md { max-width: 28rem; }
+        .max-w-3xl { max-width: 48rem; }
+
+        .w-full { width: 100%; }
+        .w-4 { width: 1rem; }
+        .w-5 { width: 1.25rem; }
+        .w-8 { width: 2rem; }
+        .w-10 { width: 2.5rem; }
+        .w-16 { width: 4rem; }
+        .w-20 { width: 5rem; }
+        .w-48 { width: 12rem; }
+
+        .h-0\.5 { height: 0.125rem; }
+        .h-4 { height: 1rem; }
+        .h-5 { height: 1.25rem; }
+        .h-8 { height: 2rem; }
+        .h-10 { height: 2.5rem; }
+        .h-14 { height: 3.5rem; }
+        .h-16 { height: 4rem; }
+        .h-20 { height: 5rem; }
+        .h-40 { height: 10rem; }
+        .h-200 { height: 200px; }
+
+        /* Components */
+        .card {
+            background-color: var(--card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            padding: 1px;
+            background: linear-gradient(
+                45deg, 
+                transparent 0%, 
+                rgba(var(--accent-blue-rgb), 0.3) 25%, 
+                rgba(var(--accent-purple-rgb), 0.3) 50%,
+                rgba(var(--accent-blue-rgb), 0.3) 75%,
+                transparent 100%
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        /* Glass Card */
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            border-radius: var(--radius);
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .dark .glass {
+            background: rgba(18, 18, 18, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass:hover {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px 0 rgba(31, 38, 135, 0.15);
+        }
+
+        .dark .glass:hover {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .backdrop-blur-sm {
+            backdrop-filter: blur(8px);
+        }
+
+        .bg-white\/80 { background-color: rgba(255, 255, 255, 0.8); }
+        .bg-white\/90 { background-color: rgba(255, 255, 255, 0.9); }
+        .bg-black\/50 { background-color: rgba(0, 0, 0, 0.5); }
+        .bg-black\/70 { background-color: rgba(0, 0, 0, 0.7); }
+
+        .bg-primary { background-color: var(--primary); }
+        .bg-primary\/10 { background-color: rgba(18, 18, 18, 0.1); }
+        .bg-muted { background-color: var(--muted); }
+        .bg-muted\/10 { background-color: rgba(244, 244, 245, 0.1); }
+        .bg-muted\/20 { background-color: rgba(244, 244, 245, 0.2); }
+        .bg-muted\/30 { background-color: rgba(244, 244, 245, 0.3); }
+
+        .bg-green-100 { background-color: rgba(220, 252, 231, 1); }
+        .bg-red-100 { background-color: rgba(254, 226, 226, 1); }
+
+        .border { border-width: 1px; border-style: solid; }
+        .border-t { border-top-width: 1px; border-top-style: solid; }
+        .border-b { border-bottom-width: 1px; border-bottom-style: solid; }
+
+        .border-muted { border-color: var(--muted); }
+        .border-muted\/30 { border-color: rgba(244, 244, 245, 0.3); }
+        .border-muted\/50 { border-color: rgba(244, 244, 245, 0.5); }
+        .border-primary { border-color: var(--primary); }
+        .border-primary\/30 { border-color: rgba(18, 18, 18, 0.3); }
+        .border-primary\/50 { border-color: rgba(18, 18, 18, 0.5); }
+        .border-green-300 { border-color: rgba(134, 239, 172, 1); }
+        .border-red-300 { border-color: rgba(252, 165, 165, 1); }
+
+        .border-2 { border-width: 2px; }
+        .border-dashed { border-style: dashed; }
+
+        .rounded-md { border-radius: var(--radius); }
+        .rounded-lg { border-radius: calc(var(--radius) + 2px); }
+        .rounded-full { border-radius: 9999px; }
+
+        .overflow-hidden { overflow: hidden; }
+        .object-cover { object-fit: cover; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius);
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            letter-spacing: -0.03em;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg, 
+                var(--accent-blue), 
+                var(--accent-purple), 
+                var(--accent-red), 
+                var(--accent-green)
+            );
+            background-size: 400% 400%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            opacity: 0.2;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--foreground);
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-ghost {
+            background-color: transparent;
+            color: var(--foreground);
+            border: none;
+        }
+
+        .btn-ghost:hover {
+            background-color: var(--muted);
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .btn-md {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+        }
+
+        .btn-icon {
+            padding: 0.5rem;
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Glow Button */
+        .glow-btn {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--foreground);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: -0.03em;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            cursor: pointer;
+        }
+
+        .glow-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                45deg, 
+                var(--accent-blue), 
+                var(--accent-purple), 
+                var(--accent-red), 
+                var(--accent-green)
+            );
+            background-size: 400% 400%;
+            z-index: -1;
+            filter: blur(5px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            animation: glowingGradient 10s ease infinite;
+        }
+
+        .glow-btn:hover::before {
+            opacity: 1;
+        }
+
+        .glow-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            color: white;
+            border-color: transparent;
+        }
+
+        .dark .glow-btn:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: -0.03em;
+            color: var(--foreground);
+        }
+
+        .input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--input);
+            background-color: var(--background);
+            color: var(--foreground);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(18, 18, 18, 0.1);
+        }
+
+        .dark .input:focus {
+            box-shadow: 0 0 0 2px rgba(249, 249, 249, 0.1);
+        }
+
+        .select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--input);
+            background-color: var(--background);
+            color: var(--foreground);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1.5em 1.5em;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(18, 18, 18, 0.1);
+        }
+
+        .dark .select:focus {
+            box-shadow: 0 0 0 2px rgba(249, 249, 249, 0.1);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .radio {
+            margin-right: 0.5rem;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: -0.03em;
+        }
+
+        .badge-primary {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .badge-outline {
+            background-color: transparent;
+            border: 1px solid var(--border);
+            color: var(--foreground);
+        }
+
+        .badge-outline-primary {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .badge-destructive {
+            background-color: var(--destructive);
+            color: var(--destructive-foreground);
+        }
+
+        /* Dropdown */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            min-width: 12rem;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            z-index: 1;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .dropdown-content.show {
+            display: block;
+            animation: fadeInDown 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .dropdown-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            color: var(--foreground);
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--muted);
+        }
+
+        /* Navigation */
+        .nav {
+            transition: all 0.3s ease;
+            padding: 1rem 0;
+        }
+
+        .nav-scrolled {
+            background-color: rgba(249, 249, 249, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 0;
+        }
+
+        .dark .nav-scrolled {
+            background-color: rgba(18, 18, 18, 0.8);
+        }
+
+        .nav-link {
+            position: relative;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            letter-spacing: -0.03em;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            color: var(--foreground);
+            background-color: transparent;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background-color: var(--secondary);
+        }
+
+        .dark .nav-link {
+            color: var(--foreground);
+        }
+
+        .dark .nav-link:hover {
+            background-color: var(--secondary);
+        }
+
+        .nav-link-active {
+            color: var(--primary-foreground);
+            background-color: var(--primary);
+        }
+
+        .dark .nav-link-active {
+            color: var(--primary-foreground);
+            background-color: var(--primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .nav-link-active::after {
+            width: 100%;
+            left: 0;
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed var(--muted);
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background-color: rgba(244, 244, 245, 0.1);
+        }
+
+        /* Progress Steps */
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .step {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background-color: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+
+        .step-active {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .step-inactive {
+            background-color: var(--muted);
+            color: var(--muted-foreground);
+        }
+
+        .step-line {
+            height: 2px;
+            width: 4rem;
+            background-color: var(--muted);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            transition: width 0.5s ease;
+        }
+
+        .step-line.active::after {
+            width: 100%;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8); }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes float-slow {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(10px, -15px) rotate(2deg); }
+            50% { transform: translate(20px, 10px) rotate(-2deg); }
+            75% { transform: translate(-10px, 15px) rotate(1deg); }
+        }
+
+        @keyframes glowingGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .animate-fadeInDown {
+            animation: fadeInDown 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .animate-slideUp {
+            animation: slideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .animate-slideDown {
+            animation: slideDown 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .animate-glow {
+            animation: glow 3s infinite;
+        }
+
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        .reveal-delay-4 {
+            transition-delay: 0.4s;
+        }
+
+        /* Futuristic Line Effect */
+        .tech-line {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tech-line::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, var(--accent-blue) 50%, transparent 100%);
+            transform-origin: center;
+            transform: scaleX(0.7);
+            transition: transform 0.5s ease, background 0.5s ease;
+        }
+
+        .tech-line:hover::after {
+            transform: scaleX(1);
+            background: linear-gradient(90deg, transparent 0%, var(--accent-purple) 50%, transparent 100%);
+        }
+
+        /* Chart Styles */
+        .chart-container {
+            width: 100%;
+            height: 200px;
+            position: relative;
+        }
+
+        .chart-bar {
+            height: 20px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 100%);
+            background-size: 200% 100%;
+            animation: glowingGradient 3s ease infinite;
+        }
+
+        .chart-bar-authentic {
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+        }
+
+        .chart-bar-fake {
+            background: linear-gradient(90deg, var(--accent-red), var(--accent-purple));
+        }
+
+        .chart-label {
+            position: absolute;
+            left: -120px;
+            top: 0;
+            width: 110px;
+            text-align: right;
+            font-size: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 20px;
+        }
+
+        .chart-value {
+            position: absolute;
+            right: -40px;
+            top: 0;
+            width: 35px;
+            text-align: left;
+            font-size: 10px;
+            line-height: 20px;
+        }
+
+        /* Stats Card */
+        .stats-card {
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            text-align: center;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            padding: 1px;
+            background: linear-gradient(
+                45deg, 
+                transparent 0%, 
+                var(--accent-blue) 25%, 
+                var(--accent-purple) 50%,
+                var(--accent-blue) 75%,
+                transparent 100%
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stats-card:hover::before {
+            opacity: 1;
+        }
+
+        .stats-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stats-label {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: -0.03em;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease;
+            background-color: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .dark .theme-toggle {
+            background-color: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+
+        .dark .theme-toggle:hover {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem;
+            background-color: var(--popover);
+            color: var(--popover-foreground);
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 0.5rem;
+        }
+
+        .tooltip:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive Styles */
+        @media (min-width: 768px) {
+            .grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .md\:grid-cols-3 {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .md\:grid-cols-4 {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+
+            .md\:flex {
+                display: flex;
+            }
+
+            .md\:hidden {
+                display: none;
+            }
+
+            .md\:w-1\/3 {
+                width: 33.333333%;
+            }
+
+            .md\:w-2\/3 {
+                width: 66.666667%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .mobile-menu {
+                display: none;
+            }
+
+            .mobile-menu.open {
+                display: block;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background-color: var(--background);
+                padding: 1rem;
+                border-bottom: 1px solid var(--border);
+                box-shadow: var(--shadow-md);
+                z-index: 50;
+                animation: fadeInDown 0.3s ease forwards;
+            }
+
+            .mobile-menu.open .nav-link {
+                display: block;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* Define RGB variables for gradients */
+        :root {
+            --accent-blue-rgb: 59, 130, 246;
+            --accent-green-rgb: 16, 185, 129;
+            --accent-red-rgb: 239, 68, 68;
+            --accent-purple-rgb: 139, 92, 246;
+            --accent-yellow-rgb: 245, 158, 11;
+        }
+    </style>
+</head>
+<body>
+    <!-- Liquid Animated Background -->
+    <div class="liquid-bg">
+        <div class="liquid-shape"></div>
+        <div class="liquid-shape"></div>
+        <div class="liquid-shape"></div>
+        <div class="liquid-shape"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="main-nav" class="fixed w-full z-10 py-3 nav">
+        <div class="container flex justify-between items-center">
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary animate-pulse"><path d="M12 22s-8-4-8-10V5l8-3 8 3v7c0 6-8 10-8 10Z"/></svg>
+                <span class="ml-2 text-xl font-mono font-bold">AMANA</span>
+            </div>
+            
+            <div class="hidden md:flex space-x-8" id="desktop-menu">
+                <button class="nav-link nav-link-active" data-tab="home">
+                    HOME
+                </button>
+                <button class="nav-link" data-tab="verify">
+                    VERIFY
+                </button>
+                <button class="nav-link" data-tab="certificates">
+                    CERTIFICATES
+                </button>
+                <button class="nav-link" data-tab="credits">
+                    CREDITS
+                </button>
+            </div>
+            
+            <div class="flex items-center">
+                <button id="theme-toggle" class="theme-toggle mr-4 tooltip" data-tooltip="Toggle theme">
+                    <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+                
+                <div id="auth-buttons">
+                    <button id="login-btn" class="btn btn-md rounded-md">LOGIN</button>
+                    <button id="register-btn" class="btn btn-md ml-3 rounded-md">REGISTER</button>
+                </div>
+                
+                <div id="user-profile" class="hidden">
+                    <div class="flex items-center">
+                        <span class="badge badge-outline-primary mr-4 animate-glow">100 CREDITS</span>
+                        <div class="dropdown">
+                            <button id="profile-btn" class="btn btn-md rounded-md flex items-center">
+                                <span class="mr-2 font-mono">USERNAME</span>
+                                <div class="h-8 w-8 rounded-full bg-gradient-to-br from-accent-blue to-accent-purple flex items-center justify-center">
+                                    <span class="text-white font-mono">U</span>
+                                </div>
+                            </button>
+                            <div id="profile-dropdown" class="dropdown-content glass">
+                                <a href="#" class="dropdown-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                    DASHBOARD
+                                </a>
+                                <a href="#" class="dropdown-item" id="logout-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                                    LOGOUT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="mobile-menu-btn" class="md:hidden btn btn-icon rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </div>
+        
+        <div id="mobile-menu" class="mobile-menu md:hidden glass">
+            <button class="nav-link nav-link-active w-full text-left mb-2" data-tab="home">HOME</button>
+            <button class="nav-link w-full text-left mb-2" data-tab="verify">VERIFY</button>
+            <button class="nav-link w-full text-left mb-2" data-tab="certificates">CERTIFICATES</button>
+            <button class="nav-link w-full text-left" data-tab="credits">CREDITS</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container pt-24 pb-16">
+        <!-- Home Page -->
+        <section id="home-page" class="page-section">
+            <div class="text-center mb-16 reveal">
+                <h1 class="text-5xl font-bold mb-6 font-mono relative inline-block tech-line">
+                    AUTHENTICATE SNEAKERS WITH 
+                    <span class="text-primary">AI BLOCKCHAIN TECH</span>
+                </h1>
+                <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+                    Immutable verification powered by Hedera Hashgraph
+                </p>
+            </div>
+            
+            <!-- Stats Section -->
+            <div class="grid md:grid-cols-4 gap-6 mb-16">
+                <div class="stats-card reveal reveal-delay-1">
+                    <div class="stats-value">98.7%</div>
+                    <div class="stats-label">VERIFICATION ACCURACY</div>
+                </div>
+                <div class="stats-card reveal reveal-delay-2">
+                    <div class="stats-value">10K+</div>
+                    <div class="stats-label">SNEAKERS VERIFIED</div>
+                </div>
+                <div class="stats-card reveal reveal-delay-3">
+                    <div class="stats-value">5.2M</div>
+                    <div class="stats-label">BLOCKCHAIN TRANSACTIONS</div>
+                </div>
+                <div class="stats-card reveal reveal-delay-4">
+                    <div class="stats-value">24/7</div>
+                    <div class="stats-label">GLOBAL VERIFICATION</div>
+                </div>
+            </div>
+          
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="glass p-8 reveal reveal-delay-1">
+                    <div class="text-4xl mb-4 text-primary font-mono animate-pulse">01</div>
+                    <h3 class="text-xl font-semibold mb-3 font-mono">UPLOAD</h3>
+                    <p class="text-muted-foreground">Capture multi-angle photos of your sneakers using our AI-guided system for optimal results</p>
+                    <div class="mt-4 p-3 glass rounded-md">
+                        <div class="text-sm font-mono text-muted-foreground">SUPPORTED FORMATS</div>
+                        <div class="flex space-x-2 mt-1">
+                            <span class="badge badge-outline">JPG</span>
+                            <span class="badge badge-outline">PNG</span>
+                            <span class="badge badge-outline">HEIF</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass p-8 reveal reveal-delay-2">
+                    <div class="text-4xl mb-4 text-primary font-mono animate-pulse">02</div>
+                    <h3 class="text-xl font-semibold mb-3 font-mono">ANALYZE</h3>
+                    <p class="text-muted-foreground">Our neural networks verify authenticity markers with advanced computer vision algorithms</p>
+                    <div class="mt-4 p-3 glass rounded-md">
+                        <div class="text-sm font-mono text-muted-foreground">VERIFICATION POINTS</div>
+                        <div class="flex space-x-2 mt-1">
+                            <span class="badge badge-outline">STITCHING</span>
+                            <span class="badge badge-outline">MATERIALS</span>
+                            <span class="badge badge-outline">LOGO</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass p-8 reveal reveal-delay-3">
+                    <div class="text-4xl mb-4 text-primary font-mono animate-pulse">03</div>
+                    <h3 class="text-xl font-semibold mb-3 font-mono">CERTIFY</h3>
+                    <p class="text-muted-foreground">Receive tamper-proof blockchain certification with unique digital signature</p>
+                    <div class="mt-4 p-3 glass rounded-md">
+                        <div class="text-sm font-mono text-muted-foreground">BLOCKCHAIN TECH</div>
+                        <div class="flex space-x-2 mt-1">
+                            <span class="badge badge-outline">HEDERA</span>
+                            <span class="badge badge-outline">HASHGRAPH</span>
+                            <span class="badge badge-outline">NFT</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Technology Section -->
+            <div class="mb-16 reveal">
+                <h2 class="text-3xl font-bold mb-8 font-mono relative inline-block tech-line">
+                    ADVANCED TECHNOLOGY
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="glass p-6 reveal reveal-delay-1">
+                        <div class="flex items-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-blue mr-3"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                            <h3 class="text-xl font-semibold font-mono">AI NEURAL NETWORKS</h3>
+                        </div>
+                        <p class="text-muted-foreground mb-4">Our proprietary deep learning models are trained on millions of authentic and counterfeit sneaker images to detect even the most subtle differences.</p>
+                        <div class="glass p-3 rounded-md">
+                            <div class="text-sm font-mono">ACCURACY RATE: <span class="text-accent-blue font-semibold">98.7%</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass p-6 reveal reveal-delay-2">
+                        <div class="flex items-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-purple mr-3"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                            <h3 class="text-xl font-semibold font-mono">BLOCKCHAIN SECURITY</h3>
+                        </div>
+                        <p class="text-muted-foreground mb-4">Every verification is permanently recorded on the Hedera Hashgraph, creating an immutable record that can be verified by anyone.</p>
+                        <div class="glass p-3 rounded-md">
+                            <div class="text-sm font-mono">TRANSACTION SPEED: <span class="text-accent-purple font-semibold">< 5 SECONDS</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+            <div class="text-center reveal">
+                <button id="get-started-btn" class="glow-btn px-10 py-7 text-lg font-mono rounded-md">
+                    BEGIN VERIFICATION
+                </button>
+            </div>
+            
+            <!-- Testimonials -->
+            <div class="mt-24 mb-16 reveal">
+                <h2 class="text-3xl font-bold mb-8 font-mono relative inline-block tech-line">
+                    TRUSTED BY COLLECTORS
+                </h2>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="glass p-6 reveal reveal-delay-1">
+                        <div class="flex items-center mb-4">
+                            <div class="h-10 w-10 rounded-full bg-gradient-to-br from-accent-blue to-accent-purple flex items-center justify-center">
+                                <span class="text-white font-mono">J</span>
+                            </div>
+                            <div class="ml-3">
+                                <div class="font-semibold">James K.</div>
+                                <div class="text-sm text-muted-foreground">Sneaker Collector</div>
+                            </div>
+                        </div>
+                        <p class="text-muted-foreground">"AMANA saved me from purchasing counterfeit Air Jordans. The verification was quick and the blockchain certificate gives me peace of mind."</p>
+                    </div>
+                    
+                    <div class="glass p-6 reveal reveal-delay-2">
+                        <div class="flex items-center mb-4">
+                            <div class="h-10 w-10 rounded-full bg-gradient-to-br from-accent-purple to-accent-red flex items-center justify-center">
+                                <span class="text-white font-mono">S</span>
+                            </div>
+                            <div class="ml-3">
+                                <div class="font-semibold">Sarah M.</div>
+                                <div class="text-sm text-muted-foreground">Reseller</div>
+                            </div>
+                        </div>
+                        <p class="text-muted-foreground">"As a reseller, my reputation depends on authenticity. AMANA certificates have increased my sales and customer trust significantly."</p>
+                    </div>
+                    
+                    <div class="glass p-6 reveal reveal-delay-3">
+                        <div class="flex items-center mb-4">
+                            <div class="h-10 w-10 rounded-full bg-gradient-to-br from-accent-red to-accent-green flex items-center justify-center">
+                                <span class="text-white font-mono">T</span>
+                            </div>
+                            <div class="ml-3">
+                                <div class="font-semibold">Tyler J.</div>
+                                <div class="text-sm text-muted-foreground">Sneaker Store Owner</div>
+                            </div>
+                        </div>
+                        <p class="text-muted-foreground">"We've integrated AMANA into our store workflow. Our customers love the added security and the digital certificates are a great selling point."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Verification Page -->
+        <section id="verify-page" class="page-section hidden">
+            <h2 class="text-3xl font-bold mb-8 font-mono relative inline-block tech-line">
+                VERIFICATION PROTOCOL
+            </h2>
+            
+            <div class="glass p-8">
+                <div class="step-indicator mb-8">
+                    <div id="step-1" class="step step-active">1</div>
+                    <div class="step-line" id="line-1-2"></div>
+                    <div id="step-2" class="step step-inactive">2</div>
+                    <div class="step-line" id="line-2-3"></div>
+                    <div id="step-3" class="step step-inactive">3</div>
+                </div>
+                
+                <div id="verification-step-1" class="verification-step">
+                    <h3 class="text-xl font-semibold mb-4 font-mono">STEP 1: SNEAKER DATA</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="form-group">
+                            <label for="sneaker-brand" class="label">BRAND</label>
+                            <select id="sneaker-brand" class="select">
+                                <option value="">SELECT BRAND</option>
+                                <option value="nike">NIKE</option>
+                                <option value="adidas">ADIDAS</option>
+                                <option value="jordan">JORDAN</option>
+                                <option value="yeezy">YEEZY</option>
+                                <option value="newbalance">NEW BALANCE</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="sneaker-model" class="label">MODEL</label>
+                            <input type="text" id="sneaker-model" class="input" placeholder="AIR JORDAN 1 HIGH">
+                        </div>
+                        <div class="form-group">
+                            <label for="sneaker-size" class="label">SIZE</label>
+                            <input type="text" id="sneaker-size" class="input" placeholder="US 10">
+                        </div>
+                        <div class="form-group">
+                            <label for="sneaker-colorway" class="label">COLORWAY</label>
+                            <input type="text" id="sneaker-colorway" class="input" placeholder="BRED">
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end">
+                        <button id="step-1-next" class="btn btn-md rounded-md">
+                            NEXT
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="verification-step-2" class="verification-step hidden">
+                    <h3 class="text-xl font-semibold mb-4 font-mono">STEP 2: IMAGE CAPTURE</h3>
+                    <p class="text-muted-foreground mb-6">CAPTURE CLEAR IMAGES FROM THESE ANGLES:</p>
+                    
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="glass p-5 hover:border-primary/50 transition-colors duration-300">
+                            <h4 class="font-medium mb-3 font-mono">LEFT SIDE</h4>
+                            <div class="upload-area mb-3 h-40 flex items-center justify-center" id="left-side-preview">
+                                <span class="text-muted-foreground">NO IMAGE</span>
+                            </div>
+                            <input type="file" id="left-side-upload" class="hidden" accept="image/*">
+                            <button class="btn btn-md w-full rounded-md upload-btn" data-target="left-side-upload">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                UPLOAD
+                            </button>
+                        </div>
+                        
+                        <div class="glass p-5 hover:border-primary/50 transition-colors duration-300">
+                            <h4 class="font-medium mb-3 font-mono">RIGHT SIDE</h4>
+                            <div class="upload-area mb-3 h-40 flex items-center justify-center" id="right-side-preview">
+                                <span class="text-muted-foreground">NO IMAGE</span>
+                            </div>
+                            <input type="file" id="right-side-upload" class="hidden" accept="image/*">
+                            <button class="btn btn-md w-full rounded-md upload-btn" data-target="right-side-upload">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                UPLOAD
+                            </button>
+                        </div>
+                        
+                        <div class="glass p-5 hover:border-primary/50 transition-colors duration-300">
+                            <h4 class="font-medium mb-3 font-mono">SOLE</h4>
+                            <div class="upload-area mb-3 h-40 flex items-center justify-center" id="sole-preview">
+                                <span class="text-muted-foreground">NO IMAGE</span>
+                            </div>
+                            <input type="file" id="sole-upload" class="hidden" accept="image/*">
+                            <button class="btn btn-md w-full rounded-md upload-btn" data-target="sole-upload">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                UPLOAD
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex justify-between">
+                        <button id="step-2-back" class="btn btn-md rounded-md">
+                            BACK
+                        </button>
+                        <button id="step-2-next" class="btn btn-md rounded-md">
+                            NEXT
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="verification-step-3" class="verification-step hidden">
+                    <h3 class="text-xl font-semibold mb-4 font-mono">STEP 3: INITIATE SCAN</h3>
+                    <p class="text-muted-foreground mb-6">VERIFICATION COST: <span class="font-semibold text-foreground">2 CREDITS</span></p>
+                    
+                    <div class="glass p-4 rounded-md mb-6">
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-blue mr-3"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span class="text-sm font-mono">AI ANALYSIS WILL EXAMINE 50+ AUTHENTICITY MARKERS</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex justify-between">
+                        <button id="step-3-back" class="btn btn-md rounded-md">
+                            BACK
+                        </button>
+                        <button id="begin-analysis-btn" class="glow-btn btn-md rounded-md">
+                            BEGIN ANALYSIS
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="verification-loading" class="verification-step hidden">
+                    <div class="text-center py-16">
+                        <div class="inline-block animate-spin rounded-full h-14 w-14 border-t-2 border-b-2 border-accent-blue mb-6"></div>
+                        <h3 class="text-2xl font-semibold mb-3 font-mono">ANALYSIS IN PROGRESS</h3>
+                        <p class="text-muted-foreground">NEURAL NETWORK SCANNING FOR AUTHENTICITY MARKERS</p>
+                        
+                        <div class="max-w-md mx-auto mt-8">
+                            <div class="relative h-2 bg-muted rounded-full overflow-hidden">
+                                <div id="progress-bar" class="absolute top-0 left-0 h-full bg-gradient-to-r from-accent-blue to-accent-purple" style="width: 0%"></div>
+                            </div>
+                            <div class="flex justify-between mt-2 text-xs font-mono text-muted-foreground">
+                                <span>STITCHING ANALYSIS</span>
+                                <span id="progress-text">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="verification-result-authentic" class="verification-step hidden">
+                    <div class="text-center mb-10">
+                        <div class="inline-block rounded-full h-20 w-20 bg-green-100 border border-green-300 flex items-center justify-center mb-6 animate-glow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-green"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-3 font-mono">AUTHENTIC</h3>
+                        <p class="text-muted-foreground mb-6">VERIFICATION CONFIDENCE: 98.7%</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-10 mb-10">
+                        <div>
+                            <h4 class="font-semibold mb-4 font-mono">VERIFICATION DATA</h4>
+                            <div class="glass p-6 rounded-md">
+                                <div class="flex justify-between mb-3">
+                                    <span class="text-muted-foreground font-mono">BRAND:</span>
+                                    <span id="result-brand" class="font-medium font-mono">NIKE</span>
+                                </div>
+                                <div class="flex justify-between mb-3">
+                                    <span class="text-muted-foreground font-mono">MODEL:</span>
+                                    <span id="result-model" class="font-medium font-mono">AIR JORDAN 1 HIGH</span>
+                                </div>
+                                <div class="flex justify-between mb-3">
+                                    <span class="text-muted-foreground font-mono">SCAN ID:</span>
+                                    <span id="result-verification-id" class="font-mono text-foreground">VRF-98765432</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-muted-foreground font-mono">TIMESTAMP:</span>
+                                    <span id="result-timestamp" class="font-mono text-foreground">2023-08-15 14:32:17 UTC</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold mb-4 font-mono">ANALYSIS RESULTS</h4>
+                            <div class="glass p-6 rounded-md">
+                                <div class="chart-container">
+                                    <div class="chart-bar chart-bar-authentic" style="width: 0%;">
+                                        <span class="chart-label">STITCHING PATTERN</span>
+                                        <span class="chart-value">98%</span>
+                                    </div>
+                                    <div class="chart-bar chart-bar-authentic" style="width: 0%;">
+                                        <span class="chart-label">MATERIAL QUALITY</span>
+                                        <span class="chart-value">97%</span>
+                                    </div>
+                                    <div class="chart-bar chart-bar-authentic" style="width: 0%;">
+                                        <span class="chart-label">LOGO PLACEMENT</span>
+                                        <span class="chart-value">99%</span>
+                                    </div>
+                                    <div class="chart-bar chart-bar-authentic" style="width: 0%;">
+                                        <span class="chart-label">SOLE PATTERN</span>
+                                        <span class="chart-value">96%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h4 class="font-semibold mb-4 font-mono">BLOCKCHAIN CERTIFICATE</h4>
+                        <div class="glass p-6 rounded-md mb-6">
+                            <p class="mb-3 font-mono">DIGITAL CERTIFICATE MINTED ON HEDERA NETWORK</p>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <div class="text-sm text-muted-foreground mb-1 font-mono">CERTIFICATE ID</div>
+                                    <div class="font-mono text-foreground">HBAR-98765432</div>
+                                </div>
+                                <button class="glow-btn btn-md rounded-md">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M16 13H8"></path><path d="M16 17H8"></path><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    VIEW CERT
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between">
+                        <button id="new-scan-btn" class="btn btn-md rounded-md">
+                            NEW SCAN
+                        </button>
+                        <div class="space-x-3">
+                            <button class="btn btn-md rounded-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                                SHARE
+                            </button>
+                            <button class="glow-btn btn-md rounded-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                TRANSFER
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="verification-result-fake" class="verification-step hidden">
+                    <div class="text-center mb-10">
+                        <div class="inline-block rounded-full h-20 w-20 bg-red-100 border border-red-300 flex items-center justify-center mb-6 animate-glow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-red"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-3 font-mono">NOT AUTHENTIC</h3>
+                        <p class="text-muted-foreground mb-6">MULTIPLE COUNTERFEIT MARKERS DETECTED</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-10 mb-10">
+                        <div>
+                            <h4 class="font-semibold mb-4 font-mono">VERIFICATION DATA</h4>
+                            <div class="glass p-6 rounded-md">
+                                <div class="flex justify-between mb-3">
+                                    <span class="text-muted-foreground font-mono">BRAND:</span>
+                                    <span id="result-brand-fake" class="font-medium font-mono">NIKE</span>
+                                </div>
+                                <div class="flex justify-between mb-3">
+                                    <span class="text-muted-foreground font-mono">MODEL:</span>
+                                    <span id="result-model-fake" class="font-medium font-mono">AIR JORDAN 1 HIGH</span>
+                                </div>
+                                <div class="flex justify-between mb-3">
+                                    <span class="text-muted-foreground font-mono">SCAN ID:</span>
+                                    <span id="result-verification-id-fake" class="font-mono text-foreground">VRF-98765432</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-muted-foreground font-mono">TIMESTAMP:</span>
+                                    <span id="result-timestamp-fake" class="font-mono text-foreground">2023-08-15 14:32:17 UTC</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold mb-4 font-mono">ANALYSIS RESULTS</h4>
+                            <div class="glass p-6 rounded-md">
+                                <div class="chart-container">
+                                    <div class="chart-bar chart-bar-fake" style="width: 0%;">
+                                        <span class="chart-label">STITCHING PATTERN</span>
+                                        <span class="chart-value">45%</span>
+                                    </div>
+                                    <div class="chart-bar chart-bar-fake" style="width: 0%;">
+                                        <span class="chart-label">MATERIAL QUALITY</span>
+                                        <span class="chart-value">30%</span>
+                                    </div>
+                                    <div class="chart-bar chart-bar-fake" style="width: 0%;">
+                                        <span class="chart-label">LOGO PLACEMENT</span>
+                                        <span class="chart-value">60%</span>
+                                    </div>
+                                    <div class="chart-bar chart-bar-fake" style="width: 0%;">
+                                        <span class="chart-label">SOLE PATTERN</span>
+                                        <span class="chart-value">50%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between">
+                        <button id="new-scan-btn-fake" class="btn btn-md rounded-md">
+                            NEW SCAN
+                        </button>
+                        <button class="btn btn-md rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                            SHARE
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certificates Page -->
+        <section id="certificates-page" class="page-section hidden">
+            <h2 class="text-3xl font-bold mb-8 font-mono relative inline-block tech-line">
+                CERTIFICATE ARCHIVE
+            </h2>
+            
+            <div class="mb-8 p-6 glass">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="form-group">
+                        <label for="certificate-search" class="label">SEARCH CERTIFICATES</label>
+                        <input type="text" id="certificate-search" class="input" placeholder="Enter ID or brand...">
+                    </div>
+                    <div class="form-group">
+                        <label for="certificate-filter" class="label">FILTER BY</label>
+                        <select id="certificate-filter" class="select">
+                            <option value="all">ALL CERTIFICATES</option>
+                            <option value="authentic">AUTHENTIC ONLY</option>
+                            <option value="recent">MOST RECENT</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="certificate-sort" class="label">SORT BY</label>
+                        <select id="certificate-sort" class="select">
+                            <option value="date-desc">DATE (NEWEST)</option>
+                            <option value="date-asc">DATE (OLDEST)</option>
+                            <option value="brand">BRAND (A-Z)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="certificates-container" class="grid md:grid-cols-3 gap-6">
+                <div class="glass p-6 reveal reveal-delay-1">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="badge badge-primary">AUTHENTIC</span>
+                        <div class="text-sm text-muted-foreground font-mono">15.03.2023</div>
+                    </div>
+                    
+                    <h3 class="text-lg font-semibold mb-1 font-mono">NIKE</h3>
+                    <p class="text-muted-foreground mb-4">AIR JORDAN 1 HIGH</p>
+                    
+                    <div class="flex items-center text-xs text-muted-foreground mb-6">
+                        <span class="font-mono">ID: HBAR-98765432</span>
+                    </div>
+                    
+                    <button class="glow-btn btn-md w-full rounded-md font-mono">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M16 13H8"></path><path d="M16 17H8"></path><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        VIEW CERTIFICATE
+                    </button>
+                </div>
+                
+                <div class="glass p-6 reveal reveal-delay-2">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="badge badge-primary">AUTHENTIC</span>
+                        <div class="text-sm text-muted-foreground font-mono">10.02.2023</div>
+                    </div>
+                    
+                    <h3 class="text-lg font-semibold mb-1 font-mono">ADIDAS</h3>
+                    <p class="text-muted-foreground mb-4">YEEZY BOOST 350</p>
+                    
+                    <div class="flex items-center text-xs text-muted-foreground mb-6">
+                        <span class="font-mono">ID: HBAR-87654321</span>
+                    </div>
+                    
+                    <button class="glow-btn btn-md w-full rounded-md font-mono">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M16 13H8"></path><path d="M16 17H8"></path><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        VIEW CERTIFICATE
+                    </button>
+                </div>
+                
+                <div class="glass p-6 reveal reveal-delay-3">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="badge badge-destructive">NOT AUTHENTIC</span>
+                        <div class="text-sm text-muted-foreground font-mono">05.01.2023</div>
+                    </div>
+                    
+                    <h3 class="text-lg font-semibold mb-1 font-mono">NIKE</h3>
+                    <p class="text-muted-foreground mb-4">DUNK LOW</p>
+                    
+                    <div class="flex items-center text-xs text-muted-foreground mb-6">
+                        <span class="font-mono">ID: HBAR-76543210</span>
+                    </div>
+                    
+                    <button class="glow-btn btn-md w-full rounded-md font-mono">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M16 13H8"></path><path d="M16 17H8"></path><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        VIEW CERTIFICATE
+                    </button>
+                </div>
+            </div>
+            
+            <div id="no-certificates" class="hidden text-center py-16">
+                <div class="inline-block rounded-full h-20 w-20 bg-muted/20 flex items-center justify-center mb-6 border border-muted animate-pulse">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M16 13H8"></path><path d="M16 17H8"></path><polyline points="10 9 9 9 8 9"></polyline></svg>
+                </div>
+                <h3 class="text-2xl font-semibold mb-3 font-mono">NO CERTIFICATES FOUND</h3>
+                <p class="text-muted-foreground mb-6">INITIATE YOUR FIRST VERIFICATION PROTOCOL</p>
+                <button id="start-verification-btn" class="glow-btn btn-md rounded-md animate-pulse">
+                    BEGIN VERIFICATION
+                </button>
+            </div>
+            
+            <!-- Certificate Pagination -->
+            <div class="flex justify-center mt-10">
+                <div class="flex space-x-2">
+                    <button class="btn btn-sm rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <button class="btn btn-sm rounded-md" style="background-color: var(--primary); color: var(--primary-foreground);">1</button>
+                    <button class="btn btn-sm rounded-md">2</button>
+                    <button class="btn btn-sm rounded-md">3</button>
+                    <button class="btn btn-sm rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Credits Page -->
+        <section id="credits-page" class="page-section hidden">
+            <h2 class="text-3xl font-bold mb-8 font-mono relative inline-block tech-line">
+                CREDIT ACQUISITION
+            </h2>
+            
+            <div class="mb-8 p-6 glass">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 font-mono">VERIFICATION CREDITS</h3>
+                        <p class="text-muted-foreground mb-4">Purchase verification credits to authenticate your sneakers using our advanced AI and blockchain technology. Each verification includes a permanent digital certificate.</p>
+                        <div class="flex items-center glass p-3 rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-blue mr-3"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span class="text-sm font-mono">CREDITS NEVER EXPIRE AND CAN BE USED ANYTIME</span>
+                        </div>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-value">100+</div>
+                        <div class="stats-label">VERIFICATIONS PERFORMED TODAY</div>
+                        <div class="mt-4 text-sm text-muted-foreground">Join the community of collectors and resellers who trust AMANA for sneaker authentication.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="credit-packages" class="grid md:grid-cols-3 gap-6 mb-10">
+                <div class="glass p-6 cursor-pointer credit-package reveal reveal-delay-1">
+                    <div class="text-center mb-6">
+                        <div class="text-2xl font-bold text-foreground mb-2 font-mono">5 CREDITS</div>
+                        <div class="text-3xl font-bold mb-2 font-mono">KES 250</div>
+                        <div class="text-muted-foreground text-sm font-mono">KES 50/VERIFICATION</div>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-blue mr-2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span class="text-muted-foreground">5 VERIFICATIONS</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-blue mr-2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span class="text-muted-foreground">BLOCKCHAIN CERTIFICATES</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-blue mr-2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span class="text-muted-foreground">BASIC SUPPORT</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="glow-btn btn-md w-full rounded-md font-mono select-package-btn" data-credits="5" data-price="250">
+                        SELECT
+                    </button>
+                </div>
+                
+                <div class="glass p-6 cursor-pointer credit-package relative reveal reveal-delay-2">
+                    <div class="absolute -top-3 right-4 bg-gradient-to-r from-accent-blue to-accent-purple text-white px-3 py-1 rounded-full text-xs font-bold font-mono animate-pulse">
+                        BEST VALUE
+                    </div>
+                    
+                    <div class="text-center mb-6">
+                        <div class="text-2xl font-bold text-foreground mb-2 font-mono">10 CREDITS</div>
+                        <div class="text-3xl font-bold mb-2 font-mono">KES 450</div>
+                        <div class="text-muted-foreground text-sm font-mono">KES 45/VERIFICATION</div>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-purple mr-2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span class="text-muted-foreground">10 VERIFICATIONS</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-purple mr-2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span class="text-muted-foreground">BLOCKCHAIN CERTIFICATES</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-purple mr-2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span class="text-muted-foreground">PRIORITY SUPPORT</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="glow-btn btn-md w-full rounded-md font-mono select-package-btn animate-glow" data-credits="10" data-price="450">
+                        SELECT
+                    </button>
+                </div>
+                
+                <div class="glass p-6 cursor-pointer credit-package reveal reveal-delay-3">
+                    <div class="text-center mb-6">
+                        <div class="text-2xl font-bold text-foreground mb-2 font-mono">25 CREDITS</div>
+                        <div class="text-3xl font-bold mb-2 font-mono">KES 1,000</div>
+                        <div class="text-muted-foreground text-sm font-mono">KES 40/VERIFICATION</div>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-green mr-2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span class="text-muted-foreground">25 VERIFICATIONS</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-green mr-2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span class="text-muted-foreground">BLOCKCHAIN CERTIFICATES</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-green mr-2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span class="text-muted-foreground">VIP SUPPORT</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="glow-btn btn-md w-full rounded-md font-mono select-package-btn" data-credits="25" data-price="1000">
+                        SELECT
+                    </button>
+                </div>
+            </div>
+            
+            <div id="payment-section" class="hidden">
+                <h3 class="text-2xl font-semibold mb-6 font-mono tech-line">PAYMENT GATEWAY</h3>
+                <div class="glass p-8 mb-6">
+                    <div class="mb-8">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="font-medium font-mono">ORDER SUMMARY</h4>
+                            <button id="change-package-btn" class="text-accent-blue text-sm font-mono hover:text-accent-purple">
+                                CHANGE
+                            </button>
+                        </div>
+                        <div class="glass p-6 rounded-md">
+                            <div class="flex justify-between mb-3">
+                                <span id="summary-credits" class="font-mono">10 CREDITS</span>
+                                <span id="summary-price" class="font-mono">KES 450</span>
+                            </div>
+                            <div class="border-t border-muted/30 my-3"></div>
+                            <div class="flex justify-between font-semibold font-mono">
+                                <span>TOTAL</span>
+                                <span id="summary-total">KES 450</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h4 class="font-medium mb-4 font-mono">PAYMENT METHOD</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                            <div class="radio-item">
+                                <input type="radio" id="payment-mpesa" name="payment-method" value="mpesa" checked class="radio">
+                                <label for="payment-mpesa" class="font-mono">M-PESA</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="payment-card" name="payment-method" value="card" class="radio">
+                                <label for="payment-card" class="font-mono">CARD</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="payment-paypal" name="payment-method" value="paypal" class="radio">
+                                <label for="payment-paypal" class="font-mono">PAYPAL</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="payment-crypto" name="payment-method" value="crypto" class="radio">
+                                <label for="payment-crypto" class="font-mono">CRYPTO</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="payment-method-forms">
+                        <div id="mpesa-form" class="payment-method-form">
+                            <p class="mb-6 font-mono">ENTER M-PESA NUMBER FOR PAYMENT REQUEST:</p>
+                            <div class="mb-6">
+                                <label for="mpesa-phone" class="label">PHONE</label>
+                                <input type="text" id="mpesa-phone" class="input" placeholder="0712345678">
+                                <p class="text-sm text-muted-foreground mt-2 font-mono">FORMAT: 07XXXXXXXX OR 254XXXXXXXXX</p>
+                            </div>
+                        </div>
+                        
+                        <div id="card-form" class="payment-method-form hidden">
+                            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                                <div class="form-group">
+                                    <label for="card-name" class="label">NAME</label>
+                                    <input type="text" id="card-name" class="input" placeholder="JOHN DOE">
+                                </div>
+                                <div class="form-group">
+                                    <label for="card-number" class="label">CARD NUMBER</label>
+                                    <input type="text" id="card-number" class="input" placeholder="1234 5678 9012 3456">
+                                </div>
+                                <div class="form-group">
+                                    <label for="card-expiry" class="label">EXPIRY</label>
+                                    <input type="text" id="card-expiry" class="input" placeholder="MM/YY">
+                                </div>
+                                <div class="form-group">
+                                    <label for="card-cvc" class="label">CVC</label>
+                                    <input type="text" id="card-cvc" class="input" placeholder="123">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="paypal-form" class="payment-method-form hidden">
+                            <p class="mb-6 font-mono">YOU WILL BE REDIRECTED TO PAYPAL TO COMPLETE PAYMENT</p>
+                        </div>
+                        
+                        <div id="crypto-form" class="payment-method-form hidden">
+                            <div class="mb-6">
+                                <p class="mb-3 font-mono">SEND <span id="hbar-amount" class="font-semibold">45</span> HBAR TO:</p>
+                                <div class="glass p-4 rounded-md font-mono text-sm mb-3">
+                                    0.0.9876543
+                                </div>
+                                <p class="text-sm text-muted-foreground font-mono">CREDITS WILL BE ADDED AFTER NETWORK CONFIRMATION</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="complete-payment-btn" class="glow-btn btn-md w-full rounded-md font-mono">
+                        COMPLETE PAYMENT
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Form Modal -->
+        <div id="login-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm hidden">
+            <div class="glass max-w-md w-full p-10 relative animate-fadeInUp">
+                <button id="login-close-btn" class="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+                
+                <h2 class="text-2xl font-bold mb-8 text-center font-mono">ACCESS SYSTEM</h2>
+                
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email" class="label">EMAIL</label>
+                        <input type="email" id="login-email" class="input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password" class="label">PASSWORD</label>
+                        <input type="password" id="login-password" class="input" required>
+                    </div>
+                    
+                    <button type="submit" class="glow-btn btn-md w-full rounded-md font-mono">
+                        AUTHENTICATE
+                    </button>
+                </form>
+                
+                <p class="mt-6 text-center text-muted-foreground font-mono">
+                    NO ACCOUNT? <button id="show-register-btn" class="text-accent-blue hover:text-accent-purple">REGISTER</button>
+                </p>
+            </div>
+        </div>
+
+        <!-- Register Form Modal -->
+        <div id="register-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm hidden">
+            <div class="glass max-w-md w-full p-10 relative animate-fadeInUp">
+                <button id="register-close-btn" class="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+                
+                <h2 class="text-2xl font-bold mb-8 text-center font-mono">CREATE IDENTITY</h2>
+                
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-name" class="label">FULL NAME</label>
+                        <input type="text" id="register-name" class="input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-email" class="label">EMAIL</label>
+                        <input type="email" id="register-email" class="input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-password" class="label">PASSWORD</label>
+                        <input type="password" id="register-password" class="input" required>
+                    </div>
+                    
+                    <button type="submit" class="glow-btn btn-md w-full rounded-md font-mono">
+                        REGISTER IDENTITY
+                    </button>
+                </form>
+                
+                <p class="mt-6 text-center text-muted-foreground font-mono">
+                    EXISTING USER? <button id="show-login-btn" class="text-accent-blue hover:text-accent-purple">LOGIN</button>
+                </p>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="success-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+            <div class="glass p-8 max-w-md w-full animate-fadeInUp">
+                <div class="text-center">
+                    <div class="inline-block rounded-full h-16 w-16 bg-primary/10 flex items-center justify-center mb-6 border border-primary/30 animate-glow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-green"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 font-mono">TRANSACTION COMPLETE</h3>
+                    <p class="text-muted-foreground mb-6">CREDITS SUCCESSFULLY ADDED TO YOUR ACCOUNT</p>
+                    <button id="success-close-btn" class="glow-btn btn-md px-8 py-3 rounded-md font-mono">
+                        CONTINUE
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // State Management
+        const state = {
+            activeTab: 'home',
+            isLoggedIn: false,
+            verificationStep: 1,
+            verificationResult: null,
+            selectedPackage: null,
+            paymentMethod: 'mpesa',
+            isDarkMode: false,
+            certificates: [
+                {
+                    id: "HBAR-98765432",
+                    brand: "NIKE",
+                    model: "AIR JORDAN 1 HIGH",
+                    date: "15.03.2023",
+                    isAuthentic: true
+                },
+                {
+                    id: "HBAR-87654321",
+                    brand: "ADIDAS",
+                    model: "YEEZY BOOST 350",
+                    date: "10.02.2023",
+                    isAuthentic: true
+                },
+                {
+                    id: "HBAR-76543210",
+                    brand: "NIKE",
+                    model: "DUNK LOW",
+                    date: "05.01.2023",
+                    isAuthentic: false
+                }
+            ]
+        };
+
+        // DOM Elements
+        const elements = {
+            // Navigation
+            nav: document.getElementById('main-nav'),
+            navLinks: document.querySelectorAll('.nav-link'),
+            mobileMenuBtn: document.getElementById('mobile-menu-btn'),
+            mobileMenu: document.getElementById('mobile-menu'),
+            
+            // Pages
+            pages: document.querySelectorAll('.page-section'),
+            homePage: document.getElementById('home-page'),
+            verifyPage: document.getElementById('verify-page'),
+            certificatesPage: document.getElementById('certificates-page'),
+            creditsPage: document.getElementById('credits-page'),
+            
+            // Authentication
+            authButtons: document.getElementById('auth-buttons'),
+            userProfile: document.getElementById('user-profile'),
+            loginBtn: document.getElementById('login-btn'),
+            registerBtn: document.getElementById('register-btn'),
+            logoutBtn: document.getElementById('logout-btn'),
+            profileBtn: document.getElementById('profile-btn'),
+            profileDropdown: document.getElementById('profile-dropdown'),
+            
+            // Login Modal
+            loginModal: document.getElementById('login-modal'),
+            loginForm: document.getElementById('login-form'),
+            loginCloseBtn: document.getElementById('login-close-btn'),
+            showRegisterBtn: document.getElementById('show-register-btn'),
+            
+            // Register Modal
+            registerModal: document.getElementById('register-modal'),
+            registerForm: document.getElementById('register-form'),
+            registerCloseBtn: document.getElementById('register-close-btn'),
+            showLoginBtn: document.getElementById('show-login-btn'),
+            
+            // Verification Steps
+            verificationSteps: document.querySelectorAll('.verification-step'),
+            step1: document.getElementById('verification-step-1'),
+            step2: document.getElementById('verification-step-2'),
+            step3: document.getElementById('verification-step-3'),
+            verificationLoading: document.getElementById('verification-loading'),
+            verificationResultAuthentic: document.getElementById('verification-result-authentic'),
+            verificationResultFake: document.getElementById('verification-result-fake'),
+            stepIndicators: {
+                step1: document.getElementById('step-1'),
+                step2: document.getElementById('step-2'),
+                step3: document.getElementById('step-3')
+            },
+            stepLines: {
+                line1to2: document.getElementById('line-1-2'),
+                line2to3: document.getElementById('line-2-3')
+            },
+            
+            // Verification Navigation
+            step1Next: document.getElementById('step-1-next'),
+            step2Back: document.getElementById('step-2-back'),
+            step2Next: document.getElementById('step-2-next'),
+            step3Back: document.getElementById('step-3-back'),
+            beginAnalysisBtn: document.getElementById('begin-analysis-btn'),
+            newScanBtn: document.getElementById('new-scan-btn'),
+            newScanBtnFake: document.getElementById('new-scan-btn-fake'),
+            
+            // Upload Areas
+            uploadBtns: document.querySelectorAll('.upload-btn'),
+            
+            // Credits Page
+            creditPackages: document.getElementById('credit-packages'),
+            selectPackageBtns: document.querySelectorAll('.select-package-btn'),
+            paymentSection: document.getElementById('payment-section'),
+            changePackageBtn: document.getElementById('change-package-btn'),
+            summaryCredits: document.getElementById('summary-credits'),
+            summaryPrice: document.getElementById('summary-price'),
+            summaryTotal: document.getElementById('summary-total'),
+            
+            // Payment Methods
+            paymentMethodRadios: document.querySelectorAll('input[name="payment-method"]'),
+            paymentMethodForms: document.querySelectorAll('.payment-method-form'),
+            completePaymentBtn: document.getElementById('complete-payment-btn'),
+            
+            // Success Modal
+            successModal: document.getElementById('success-modal'),
+            successCloseBtn: document.getElementById('success-close-btn'),
+            
+            // Home Page
+            getStartedBtn: document.getElementById('get-started-btn'),
+            
+            // Certificates Page
+            certificatesContainer: document.getElementById('certificates-container'),
+            noCertificates: document.getElementById('no-certificates'),
+            startVerificationBtn: document.getElementById('start-verification-btn'),
+            
+            // Progress Bar
+            progressBar: document.getElementById('progress-bar'),
+            progressText: document.getElementById('progress-text'),
+            
+            // Theme Toggle
+            themeToggle: document.getElementById('theme-toggle'),
+            sunIcon: document.getElementById('sun-icon'),
+            moonIcon: document.getElementById('moon-icon'),
+            
+            // Reveal Elements
+            revealElements: document.querySelectorAll('.reveal')
+        };
+
+        // Helper Functions
+        function showPage(pageId) {
+            elements.pages.forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            document.getElementById(`${pageId}-page`).classList.remove('hidden');
+            state.activeTab = pageId;
+            
+            // Update navigation
+            elements.navLinks.forEach(link => {
+                if (link.dataset.tab === pageId) {
+                    link.classList.add('nav-link-active');
+                } else {
+                    link.classList.remove('nav-link-active');
+                }
+            });
+
+            // Trigger reveal animations for the current page
+            const currentPage = document.getElementById(`${pageId}-page`);
+            const revealElements = currentPage.querySelectorAll('.reveal');
+            setTimeout(() => {
+                revealElements.forEach(el => {
+                    el.classList.add('active');
+                });
+            }, 100);
+        }
+
+        function showVerificationStep(step) {
+            elements.verificationSteps.forEach(stepEl => {
+                stepEl.classList.add('hidden');
+            });
+            
+            // Update step indicators
+            for (let i = 1; i <= 3; i++) {
+                const stepIndicator = elements.stepIndicators[`step${i}`];
+                if (stepIndicator) {
+                    if (i === step) {
+                        stepIndicator.classList.remove('step-inactive');
+                        stepIndicator.classList.add('step-active');
+                    } else if (i < step) {
+                        stepIndicator.classList.remove('step-inactive');
+                        stepIndicator.classList.add('step-active');
+                    } else {
+                        stepIndicator.classList.remove('step-active');
+                        stepIndicator.classList.add('step-inactive');
+                    }
+                }
+            }
+            
+            // Update step lines
+            if (step >= 2) {
+                elements.stepLines.line1to2.classList.add('active');
+            } else {
+                elements.stepLines.line1to2.classList.remove('active');
+            }
+            
+            if (step >= 3) {
+                elements.stepLines.line2to3.classList.add('active');
+            } else {
+                elements.stepLines.line2to3.classList.remove('active');
+            }
+            
+            state.verificationStep = step;
+            
+            if (step === 1) {
+                elements.step1.classList.remove('hidden');
+            } else if (step === 2) {
+                elements.step2.classList.remove('hidden');
+            } else if (step === 3) {
+                elements.step3.classList.remove('hidden');
+            }
+        }
+
+        function showVerificationResult(result) {
+            elements.verificationSteps.forEach(stepEl => {
+                stepEl.classList.add('hidden');
+            });
+            
+            if (result === 'authentic') {
+                elements.verificationResultAuthentic.classList.remove('hidden');
+                
+                // Animate chart bars
+                setTimeout(() => {
+                    const chartBars = elements.verificationResultAuthentic.querySelectorAll('.chart-bar');
+                    chartBars.forEach((bar, index) => {
+                        setTimeout(() => {
+                            bar.style.width = bar.querySelector('.chart-value').textContent.replace('%', '') + '%';
+                        }, 200 * index);
+                    });
+                }, 500);
+            } else if (result === 'fake') {
+                elements.verificationResultFake.classList.remove('hidden');
+                
+                // Animate chart bars
+                setTimeout(() => {
+                    const chartBars = elements.verificationResultFake.querySelectorAll('.chart-bar');
+                    chartBars.forEach((bar, index) => {
+                        setTimeout(() => {
+                            bar.style.width = bar.querySelector('.chart-value').textContent.replace('%', '') + '%';
+                        }, 200 * index);
+                    });
+                }, 500);
+            }
+            
+            state.verificationResult = result;
+        }
+
+        function resetVerification() {
+            showVerificationStep(1);
+            state.verificationResult = null;
+        }
+
+        function toggleLoginModal(show) {
+            if (show) {
+                elements.loginModal.classList.remove('hidden');
+                elements.registerModal.classList.add('hidden');
+                
+                // Add entrance animation
+                const modalContent = elements.loginModal.querySelector('.glass');
+                modalContent.style.opacity = '0';
+                modalContent.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    modalContent.style.opacity = '1';
+                    modalContent.style.transform = 'scale(1)';
+                    modalContent.style.transition = 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)';
+                }, 50);
+            } else {
+                const modalContent = elements.loginModal.querySelector('.glass');
+                modalContent.style.opacity = '0';
+                modalContent.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    elements.loginModal.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        function toggleRegisterModal(show) {
+            if (show) {
+                elements.registerModal.classList.remove('hidden');
+                elements.loginModal.classList.add('hidden');
+                
+                // Add entrance animation
+                const modalContent = elements.registerModal.querySelector('.glass');
+                modalContent.style.opacity = '0';
+                modalContent.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    modalContent.style.opacity = '1';
+                    modalContent.style.transform = 'scale(1)';
+                    modalContent.style.transition = 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)';
+                }, 50);
+            } else {
+                const modalContent = elements.registerModal.querySelector('.glass');
+                modalContent.style.opacity = '0';
+                modalContent.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    elements.registerModal.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        function toggleSuccessModal(show) {
+            if (show) {
+                elements.successModal.classList.remove('hidden');
+                
+                // Add entrance animation
+                const modalContent = elements.successModal.querySelector('.glass');
+                modalContent.style.opacity = '0';
+                modalContent.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    modalContent.style.opacity = '1';
+                    modalContent.style.transform = 'scale(1)';
+                    modalContent.style.transition = 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)';
+                }, 50);
+            } else {
+                const modalContent = elements.successModal.querySelector('.glass');
+                modalContent.style.opacity = '0';
+                modalContent.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    elements.successModal.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        function toggleProfileDropdown() {
+            if (elements.profileDropdown.classList.contains('show')) {
+                elements.profileDropdown.style.opacity = '0';
+                elements.profileDropdown.style.transform = 'translateY(-10px)';
+                setTimeout(() => {
+                    elements.profileDropdown.classList.remove('show');
+                }, 300);
+            } else {
+                elements.profileDropdown.classList.add('show');
+                elements.profileDropdown.style.opacity = '0';
+                elements.profileDropdown.style.transform = 'translateY(-10px)';
+                setTimeout(() => {
+                    elements.profileDropdown.style.opacity = '1';
+                    elements.profileDropdown.style.transform = 'translateY(0)';
+                    elements.profileDropdown.style.transition = 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)';
+                }, 50);
+            }
+        }
+
+        function updateAuthUI() {
+            if (state.isLoggedIn) {
+                elements.authButtons.classList.add('hidden');
+                elements.userProfile.classList.remove('hidden');
+                
+                // Add entrance animation
+                elements.userProfile.style.opacity = '0';
+                elements.userProfile.style.transform = 'translateX(20px)';
+                setTimeout(() => {
+                    elements.userProfile.style.opacity = '1';
+                    elements.userProfile.style.transform = 'translateX(0)';
+                    elements.userProfile.style.transition = 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)';
+                }, 50);
+            } else {
+                elements.authButtons.classList.remove('hidden');
+                elements.userProfile.classList.add('hidden');
+                
+                // Add entrance animation
+                elements.authButtons.style.opacity = '0';
+                elements.authButtons.style.transform = 'translateX(-20px)';
+                setTimeout(() => {
+                    elements.authButtons.style.opacity = '1';
+                    elements.authButtons.style.transform = 'translateX(0)';
+                    elements.authButtons.style.transition = 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)';
+                }, 50);
+            }
+        }
+
+        function selectPackage(credits, price) {
+            state.selectedPackage = { credits, price };
+            
+            // Animate transition
+            elements.creditPackages.style.opacity = '0';
+            elements.creditPackages.style.transform = 'translateY(-20px)';
+            
+            setTimeout(() => {
+                elements.creditPackages.classList.add('hidden');
+                elements.paymentSection.classList.remove('hidden');
+                elements.paymentSection.style.opacity = '0';
+                elements.paymentSection.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    elements.paymentSection.style.opacity = '1';
+                    elements.paymentSection.style.transform = 'translateY(0)';
+                    elements.paymentSection.style.transition = 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)';
+                }, 50);
+            }, 300);
+            
+            // Update summary
+            elements.summaryCredits.textContent = `${credits} CREDITS`;
+            elements.summaryPrice.textContent = `KES ${price.toLocaleString()}`;
+            elements.summaryTotal.textContent = `KES ${price.toLocaleString()}`;
+            
+            // Update HBAR amount for crypto payment
+            const hbarAmount = document.getElementById('hbar-amount');
+            if (hbarAmount) {
+                hbarAmount.textContent = Math.round(price / 10);
+            }
+        }
+
+        function changePaymentMethod(method) {
+            state.paymentMethod = method;
+            
+            // Animate transition
+            const currentForm = document.querySelector('.payment-method-form:not(.hidden)');
+            if (currentForm) {
+                currentForm.style.opacity = '0';
+                currentForm.style.transform = 'translateY(-10px)';
+            }
+            
+            setTimeout(() => {
+                elements.paymentMethodForms.forEach(form => {
+                    form.classList.add('hidden');
+                });
+                
+                const selectedForm = document.getElementById(`${method}-form`);
+                if (selectedForm) {
+                    selectedForm.classList.remove('hidden');
+                    selectedForm.style.opacity = '0';
+                    selectedForm.style.transform = 'translateY(10px)';
+                    
+                    setTimeout(() => {
+                        selectedForm.style.opacity = '1';
+                        selectedForm.style.transform = 'translateY(0)';
+                        selectedForm.style.transition = 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)';
+                    }, 50);
+                }
+            }, 300);
+        }
+
+        function simulatePayment() {
+            // Show loading state
+            elements.completePaymentBtn.textContent = 'PROCESSING...';
+            elements.completePaymentBtn.disabled = true;
+            elements.completePaymentBtn.classList.add('animate-pulse');
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                elements.completePaymentBtn.textContent = 'COMPLETE PAYMENT';
+                elements.completePaymentBtn.disabled = false;
+                elements.completePaymentBtn.classList.remove('animate-pulse');
+                
+                // Reset payment section with animation
+                elements.paymentSection.style.opacity = '0';
+                elements.paymentSection.style.transform = 'translateY(-20px)';
+                
+                setTimeout(() => {
+                    elements.paymentSection.classList.add('hidden');
+                    elements.creditPackages.classList.remove('hidden');
+                    elements.creditPackages.style.opacity = '0';
+                    elements.creditPackages.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        elements.creditPackages.style.opacity = '1';
+                        elements.creditPackages.style.transform = 'translateY(0)';
+                        elements.creditPackages.style.transition = 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)';
+                    }, 50);
+                    
+                    // Show success modal
+                    toggleSuccessModal(true);
+                }, 300);
+            }, 2000);
+        }
+
+        function handleFileUpload(input, previewId) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById(previewId);
+                    
+                    // Animate transition
+                    preview.style.opacity = '0';
+                    setTimeout(() => {
+                        preview.innerHTML = `<img src="${e.target.result}" alt="Preview" class="h-full w-full object-cover rounded-md">`;
+                        preview.style.opacity = '1';
+                        preview.style.transition = 'opacity 0.3s ease';
+                    }, 300);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function simulateVerification() {
+            // Hide all steps with animation
+            elements.verificationSteps.forEach(step => {
+                if (!step.classList.contains('hidden')) {
+                    step.style.opacity = '0';
+                    step.style.transform = 'translateY(-20px)';
+                }
+            });
+            
+            setTimeout(() => {
+                elements.verificationSteps.forEach(step => {
+                    step.classList.add('hidden');
+                });
+                
+                elements.verificationLoading.classList.remove('hidden');
+                elements.verificationLoading.style.opacity = '0';
+                elements.verificationLoading.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    elements.verificationLoading.style.opacity = '1';
+                    elements.verificationLoading.style.transform = 'translateY(0)';
+                    elements.verificationLoading.style.transition = 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)';
+                }, 50);
+            }, 300);
+            
+            // Simulate verification progress
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 5;
+                if (elements.progressBar) {
+                    elements.progressBar.style.width = `${progress}%`;
+                    elements.progressBar.style.transition = 'width 0.5s ease';
+                }
+                if (elements.progressText) elements.progressText.textContent = `${progress}%`;
+                
+                // Update progress text
+                if (progress < 30) {
+                    if (elements.progressText) elements.progressText.previousElementSibling.textContent = "STITCHING ANALYSIS";
+                } else if (progress < 60) {
+                    if (elements.progressText) elements.progressText.previousElementSibling.textContent = "MATERIAL VERIFICATION";
+                } else if (progress < 90) {
+                    if (elements.progressText) elements.progressText.previousElementSibling.textContent = "LOGO AUTHENTICATION";
+                } else {
+                    if (elements.progressText) elements.progressText.previousElementSibling.textContent = "FINALIZING RESULTS";
+                }
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    
+                    // Reset progress for next time
+                    setTimeout(() => {
+                        if (elements.progressBar) elements.progressBar.style.width = "0%";
+                        if (elements.progressText) elements.progressText.textContent = "0%";
+                    }, 500);
+                    
+                    // Hide loading with animation
+                    elements.verificationLoading.style.opacity = '0';
+                    elements.verificationLoading.style.transform = 'translateY(-20px)';
+                    
+                    setTimeout(() => {
+                        elements.verificationLoading.classList.add('hidden');
+                        
+                        // Randomly determine if authentic or fake
+                        const isAuthentic = Math.random() > 0.3;
+                        showVerificationResult(isAuthentic ? 'authentic' : 'fake');
+                        
+                        // Show result with animation
+                        const resultElement = isAuthentic ? elements.verificationResultAuthentic : elements.verificationResultFake;
+                        resultElement.style.opacity = '0';
+                        resultElement.style.transform = 'translateY(20px)';
+                        
+                        setTimeout(() => {
+                            resultElement.style.opacity = '1';
+                            resultElement.style.transform = 'translateY(0)';
+                            resultElement.style.transition = 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)';
+                        }, 50);
+                    }, 300);
+                }
+            }, 100);
+        }
+
+        function toggleTheme() {
+            state.isDarkMode = !state.isDarkMode;
+            
+            if (state.isDarkMode) {
+                document.documentElement.classList.add('dark');
+                elements.sunIcon.classList.add('hidden');
+                elements.moonIcon.classList.remove('hidden');
+                
+                // Add transition effect
+                document.body.style.opacity = '0.8';
+                setTimeout(() => {
+                    document.body.style.opacity = '1';
+                    document.body.style.transition = 'opacity 0.3s ease';
+                }, 100);
+            } else {
+                document.documentElement.classList.remove('dark');
+                elements.sunIcon.classList.remove('hidden');
+                elements.moonIcon.classList.add('hidden');
+                
+                // Add transition effect
+                document.body.style.opacity = '0.8';
+                setTimeout(() => {
+                    document.body.style.opacity = '1';
+                    document.body.style.transition = 'opacity 0.3s ease';
+                }, 100);
+            }
+            
+            // Save theme preference
+            localStorage.setItem('theme', state.isDarkMode ? 'dark' : 'light');
+        }
+
+        // Scroll Reveal Animation
+        function checkReveal() {
+            const windowHeight = window.innerHeight;
+            const revealPoint = 150;
+            
+            elements.revealElements.forEach(el => {
+                const revealTop = el.getBoundingClientRect().top;
+                if (revealTop < windowHeight - revealPoint) {
+                    el.classList.add('active');
+                }
+            });
+        }
+
+        // Event Listeners
+        function setupEventListeners() {
+            // Navigation
+            elements.navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    showPage(link.dataset.tab);
+                });
+            });
+            
+            // Mobile Menu
+            if (elements.mobileMenuBtn) {
+                elements.mobileMenuBtn.addEventListener('click', () => {
+                    if (elements.mobileMenu.classList.contains('open')) {
+                        elements.mobileMenu.style.opacity = '0';
+                        elements.mobileMenu.style.transform = 'translateY(-10px)';
+                        setTimeout(() => {
+                            elements.mobileMenu.classList.remove('open');
+                        }, 300);
+                    } else {
+                        elements.mobileMenu.classList.add('open');
+                        elements.mobileMenu.style.opacity = '0';
+                        elements.mobileMenu.style.transform = 'translateY(-10px)';
+                        setTimeout(() => {
+                            elements.mobileMenu.style.opacity = '1';
+                            elements.mobileMenu.style.transform = 'translateY(0)';
+                            elements.mobileMenu.style.transition = 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)';
+                        }, 50);
+                    }
+                });
+            }
+            
+            // Scroll Effect for Navigation
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 10) {
+                    elements.nav.classList.add('nav-scrolled');
+                } else {
+                    elements.nav.classList.remove('nav-scrolled');
+                }
+                
+                // Check for reveal elements
+                checkReveal();
+            });
+            
+            // Authentication
+            elements.loginBtn.addEventListener('click', () => {
+                toggleLoginModal(true);
+            });
+            
+            elements.registerBtn.addEventListener('click', () => {
+                toggleRegisterModal(true);
+            });
+            
+            elements.loginCloseBtn.addEventListener('click', () => {
+                toggleLoginModal(false);
+            });
+            
+            elements.registerCloseBtn.addEventListener('click', () => {
+                toggleRegisterModal(false);
+            });
+            
+            elements.showRegisterBtn.addEventListener('click', () => {
+                toggleRegisterModal(true);
+            });
+            
+            elements.showLoginBtn.addEventListener('click', () => {
+                toggleLoginModal(true);
+            });
+            
+            elements.loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                state.isLoggedIn = true;
+                updateAuthUI();
+                toggleLoginModal(false);
+            });
+            
+            elements.registerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                state.isLoggedIn = true;
+                updateAuthUI();
+                toggleRegisterModal(false);
+            });
+            
+            if (elements.logoutBtn) {
+                elements.logoutBtn.addEventListener('click', () => {
+                    state.isLoggedIn = false;
+                    updateAuthUI();
+                    elements.profileDropdown.classList.remove('show');
+                });
+            }
+            
+            if (elements.profileBtn) {
+                elements.profileBtn.addEventListener('click', () => {
+                    toggleProfileDropdown();
+                });
+            }
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (elements.profileDropdown && elements.profileBtn) {
+                    if (!elements.profileBtn.contains(e.target) && !elements.profileDropdown.contains(e.target)) {
+                        if (elements.profileDropdown.classList.contains('show')) {
+                            toggleProfileDropdown();
+                        }
+                    }
+                }
+            });
+            
+            // Verification Steps
+            if (elements.step1Next) {
+                elements.step1Next.addEventListener('click', () => {
+                    showVerificationStep(2);
+                });
+            }
+            
+            if (elements.step2Back) {
+                elements.step2Back.addEventListener('click', () => {
+                    showVerificationStep(1);
+                });
+            }
+            
+            if (elements.step2Next) {
+                elements.step2Next.addEventListener('click', () => {
+                    showVerificationStep(3);
+                });
+            }
+            
+            if (elements.step3Back) {
+                elements.step3Back.addEventListener('click', () => {
+                    showVerificationStep(2);
+                });
+            }
+            
+            if (elements.beginAnalysisBtn) {
+                elements.beginAnalysisBtn.addEventListener('click', () => {
+                    simulateVerification();
+                });
+            }
+            
+            if (elements.newScanBtn) {
+                elements.newScanBtn.addEventListener('click', () => {
+                    resetVerification();
+                });
+            }
+            
+            if (elements.newScanBtnFake) {
+                elements.newScanBtnFake.addEventListener('click', () => {
+                    resetVerification();
+                });
+            }
+            
+            // Upload Buttons
+            elements.uploadBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.dataset.target;
+                    const input = document.getElementById(targetId);
+                    if (input) {
+                        input.click();
+                    }
+                });
+            });
+            
+            // File Uploads
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+            fileInputs.forEach(input => {
+                input.addEventListener('change', () => {
+                    const previewId = input.id.replace('upload', 'preview');
+                    handleFileUpload(input, previewId);
+                });
+            });
+            
+            // Credit Packages
+            elements.selectPackageBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const credits = parseInt(btn.dataset.credits);
+                    const price = parseInt(btn.dataset.price);
+                    selectPackage(credits, price);
+                });
+            });
+            
+            if (elements.changePackageBtn) {
+                elements.changePackageBtn.addEventListener('click', () => {
+                    elements.paymentSection.classList.add('hidden');
+                    elements.creditPackages.classList.remove('hidden');
+                });
+            }
+            
+            // Payment Methods
+            elements.paymentMethodRadios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    changePaymentMethod(radio.value);
+                });
+            });
+            
+            if (elements.completePaymentBtn) {
+                elements.completePaymentBtn.addEventListener('click', () => {
+                    simulatePayment();
+                });
+            }
+            
+            if (elements.successCloseBtn) {
+                elements.successCloseBtn.addEventListener('click', () => {
+                    toggleSuccessModal(false);
+                });
+            }
+            
+            // Home Page
+            if (elements.getStartedBtn) {
+                elements.getStartedBtn.addEventListener('click', () => {
+                    showPage('verify');
+                });
+            }
+            
+            // Certificates Page
+            if (elements.startVerificationBtn) {
+                elements.startVerificationBtn.addEventListener('click', () => {
+                    showPage('verify');
+                });
+            }
+            
+            // Theme Toggle
+            if (elements.themeToggle) {
+                elements.themeToggle.addEventListener('click', () => {
+                    toggleTheme();
+                });
+            }
+        }
+
+        // Initialize
+        function init() {
+            showPage('home');
+            updateAuthUI();
+            setupEventListeners();
+            
+            // Show certificates if available
+            if (state.certificates.length > 0) {
+                elements.noCertificates.classList.add('hidden');
+                elements.certificatesContainer.classList.remove('hidden');
+            } else {
+                elements.noCertificates.classList.remove('hidden');
+                elements.certificatesContainer.classList.add('hidden');
+            }
+            
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                state.isDarkMode = true;
+                document.documentElement.classList.add('dark');
+                elements.sunIcon.classList.add('hidden');
+                elements.moonIcon.classList.remove('hidden');
+            }
+            
+            // Initial reveal check
+            setTimeout(() => {
+                checkReveal();
+            }, 300);
+        }
+
+        // Start the application
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+    
+</body>
+</html>
+

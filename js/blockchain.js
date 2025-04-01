@@ -1,8 +1,8 @@
 // blockchain.js - Handles blockchain certificate creation and verification
 
 // Simulated contract ABI and address (you would get this from Remix after deployment)
-const contractABI = []; // This would be the ABI from Remix
-const contractAddress = "0x..."; // This would be the address from Remix
+const contractABI = [0x1043ee0905a02a081511a4706b2d9243ebc281c393bbf88638d961811c4280af]; // This would be the ABI from Remix
+const contractAddress = "0xa7b9dc8e87f79b628664cfaf71f55d8cf2acca4a"; // This would be the address from Remix
 
 // Simulated contract interface
 const contractInterface = {
